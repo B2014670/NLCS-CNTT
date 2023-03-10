@@ -130,12 +130,12 @@ if (isset($_POST['update_quantity'])) {
                     </table>
                 </div>
 
-                <div class="col-lg-4 offset-8">
+                <div class="col-md-6 offset-6">
                     <div>
                         <h3 class="text-end">Tổng thanh toán: <span><?php echo number_format($grand_total, 0, ",", ".") . "đ" ?></span></h3>
                         <div class="row">
-                            <a href="product.php" class="col btn option-btn">Tiếp tục mua hàng</a>
-                            <a href="checkout.php" class="col btn  <?php echo ($grand_total > 1) ? '' : 'disabled' ?>">Thanh toán</a>
+                            <a href="product.php" class="col btn option-btn px-2">Tiếp tục mua hàng</a>
+                            <a href="checkout.php" class="col btn px-2 <?php echo ($grand_total > 1) ? '' : 'disabled' ?>">Thanh toán</a>
                         </div>
                     </div>
                 </div>
