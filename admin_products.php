@@ -11,7 +11,8 @@ if (!isset($admin_id)) {
 };
 
 if (isset($_POST['add_product'])) {
-
+   $topic = mysqli_real_escape_string($conn, $_POST['topic']);
+   $type = mysqli_real_escape_string($conn, $_POST['type']);
    $name = mysqli_real_escape_string($conn, $_POST['name']);
    $price = mysqli_real_escape_string($conn, $_POST['price']);
    $details = mysqli_real_escape_string($conn, $_POST['details']);
@@ -25,7 +26,7 @@ if (isset($_POST['add_product'])) {
    if (mysqli_num_rows($select_product_name) > 0) {
       $message[] = 'tên sản phẩm đã tồn tại!';
    } else {
-      $insert_product = mysqli_query($conn, "INSERT INTO `products`(name, details, price, image) VALUES('$name', '$details', '$price', '$image')") or die('query failed');
+      $insert_product = mysqli_query($conn, "INSERT INTO `products`(id_topic, id_type, name, details, price, image) VALUES('$topic','$type','$name', '$details', '$price', '$image')") or die('query failed');
 
       if ($insert_product) {
          if ($image_size > 2000000) {
@@ -83,8 +84,40 @@ if (isset($_GET['delete'])) {
 
       <form action="" method="POST" enctype="multipart/form-data">
          <h3>thêm sản phẩm mới</h3>
-         <input type="text" class="box" required placeholder="nhập tên chủ đề" name="type">
-         <input type="text" class="box" required placeholder="nhập tên loại" name="topic">
+         
+         <select class="box" name="topic">
+            <option value=" 1 " selected> Chọn chủ đề </option>
+
+            <?php                                
+            $select_topics = mysqli_query($conn, "SELECT * FROM topics ") or die('query failed');
+            if (mysqli_num_rows($select_topics) > 0) {
+               while ($fetch_topics = mysqli_fetch_assoc($select_topics)) {
+            ?>
+            <option value=" <?php echo $fetch_topics['id_topic']; ?> "> <?php echo $fetch_topics['name_topic']; ?> </option>
+            <?php
+                  }
+               } 
+            ?>
+         </select>
+      
+         <select class="box" name="type">
+            <option value=" 1 " selected> Chọn loại</option>
+            <?php                                
+            $select_type = mysqli_query($conn, "SELECT * FROM types ") or die('query failed');
+            if (mysqli_num_rows($select_type) > 0) {
+               while ($fecth_types = mysqli_fetch_assoc($select_type)) {
+            ?>
+            <option value=" <?php echo $fecth_types['id_type']; ?> "> <?php echo $fecth_types['name_type']; ?> </option>
+            <?php
+                  }
+               } 
+            ?>
+         </select>
+         
+
+        
+        
+        
          <input type="text" class="box" required placeholder="nhập tên sản phẩm" name="name">
          <input type="number" min="0" class="box" required placeholder="nhập giá sản phẩm" name="price">
          <textarea name="details" class="box" required placeholder="nhập mô tả sản phẩm" cols="30" rows="10"></textarea>
@@ -103,11 +136,11 @@ if (isset($_GET['delete'])) {
       <!-- DataTales Example -->
       <div class="card shadow mb-4">
          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Product</h6>
          </div>
          <div class="card-body">
             <div class="table-responsive">
-               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
                   <thead>
                   <tr>
                      <th scope="col">id sp</th>

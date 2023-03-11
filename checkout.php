@@ -26,7 +26,7 @@ if (isset($_POST['order'])) {
     $cart_total = 0;
     $cart_products[] = '';
 
-    $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+    $cart_query = mysqli_query($conn, "SELECT id_cart, user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($cart_query) > 0) {
         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
             $cart_products[] = $cart_item['name'] . ' (' . $cart_item['quantity'] . ') ';
@@ -92,7 +92,7 @@ if (isset($_POST['order'])) {
                     </div>
                     <div class="inputBox">
                         <span>Số điện thoại :</span>
-                        <input type="text" name="number" min="0" placeholder="Số điện thọai" required>
+                        <input type="text" name="number" placeholder="Số điện thọai" required>
                     </div>
                     <div class="inputBox">
                         <span>email :</span>
@@ -119,12 +119,12 @@ if (isset($_POST['order'])) {
         </div> -->
                     <div class="inputBox">
                         <span>Địa chỉ giao hàng :</span>
-                        <input type="text" name="specific_address" placeholder="thôn, khóm, số nhà,...">
+                        <input type="text" name="specific_address" placeholder="thôn, khóm, số nhà,..." required>
                     </div>
                     <div class="inputBox">
                         <span>phương thức thanh toán :</span>
                         <select name="method" class="pay">
-                            <option value="thanh toán khi giao hàng" default>thanh toán khi giao hàng (COD)</option>
+                            <option value="thanh toán khi giao hàng" selected="selected" >thanh toán khi giao hàng (COD)</option>
                             <option value="credit card">
                                 chuyển khoản
                             </option>

@@ -43,7 +43,7 @@ if (!isset($user_id)) {
 
     <section class="placed-orders ">
 
-        <h1 class="title text-center text-uppercase">Đặt hàng</h1>
+        <h1 class="title text-center text-uppercase">Lịch sử đặt hàng</h1>
 
         <div class="box-container">
 
