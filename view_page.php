@@ -76,10 +76,10 @@ if (isset($_POST['add_to_cart'])) {
         ?>
 
                     <div class="container">
-                        <div class="col-lg-10 text-center border bg-light rounded mx-auto my-5">
-                            <h1>Chi tiết sản phẩm</h1>
-                        </div>
                         <div class="card col-lg-10 mx-auto">
+                            <div  class=" text-center  mx-auto my-5">
+                                <h1>Chi tiết sản phẩm</h1>
+                            </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col my-auto text-center">
@@ -88,7 +88,7 @@ if (isset($_POST['add_to_cart'])) {
                                     <div class="col">
                                         <h2 class="card-title name"><?php echo $fetch_products['name']; ?></h2>
                                         <h2 class="mt">
-                                            <!-- <span class="text-decoration-line-through"><?php echo $fetch_products['price']; ?> </span>  -->
+                                            <span class="text-decoration-line-through"><?php echo $fetch_products['price']; ?> </span> 
                                             <h1 ><?php echo $fetch_products['price']; ?> đ</h1>
                                         </h2>
                                         <form action="" method="POST">
@@ -102,7 +102,7 @@ if (isset($_POST['add_to_cart'])) {
                                         <h2 class="box-title mt-5">Mô tả sản phẩm</h2>
                                         <div class="details"><?php echo $fetch_products['details']; ?></div>
                                         
-                                        <div class="border mt-3">
+                                        <div class="border mt-3 p-3">
                                             <h4>Lưu ý</h4>
                                             <p class="font-italic">Sản phẩm bạn đang chọn là sản phẩm được thiết kế đặc biệt!</p>
                                             <p class="font-italic">Sản phẩm thực nhận có thể khác với hình đại diện trên website (đặc điểm thủ công và tính chất tự nhiên của hàng nông nghiệp)</p>

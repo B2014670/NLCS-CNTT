@@ -86,7 +86,7 @@ if (isset($_GET['delete'])) {
          <h3>thêm sản phẩm mới</h3>
          
          <select class="box" name="topic">
-            <option value=" 1 " selected> Chọn chủ đề </option>
+            <option value="0" selected> Chọn chủ đề </option>
 
             <?php                                
             $select_topics = mysqli_query($conn, "SELECT * FROM topics ") or die('query failed');
@@ -101,7 +101,7 @@ if (isset($_GET['delete'])) {
          </select>
       
          <select class="box" name="type">
-            <option value=" 1 " selected> Chọn loại</option>
+            <option value="0" selected> Chọn loại</option>
             <?php                                
             $select_type = mysqli_query($conn, "SELECT * FROM types ") or die('query failed');
             if (mysqli_num_rows($select_type) > 0) {
@@ -146,12 +146,12 @@ if (isset($_GET['delete'])) {
                      <th scope="col">id sp</th>
                      <th scope="col">id chủ đề</th>
                      <th scope="col">id loại </th>
-                     <th scope="col" style="width:200px;">tên </th>
+                     <th scope="col" style="width:100px;">tên </th>
                      <th scope="col">giá</th>
                      <th scope="col">giá hiện tại</th>
                      <th scope="col"style="width:200px;">mô tả</th>
                      <th scope="col">ảnh</th>
-                     <th scope="col">thao tác</th>
+                     <th scope="col" style="width:100px;">thao tác</th>
                   </tr>
                   </thead>
                   <!-- <tfoot>
@@ -207,8 +207,8 @@ if (isset($_GET['delete'])) {
                            </td>
 
                            <td>
-                              <a href="admin_update_product.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">cập nhật</a>
-                              <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">xóa</a>
+                              <a href="admin_update_product.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn btn-lg">cập nhật</a>
+                              <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn btn-lg" onclick="return confirm('delete this product?');">xóa</a>
                            </td>
                         </tr>
                   <?php

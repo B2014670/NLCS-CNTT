@@ -46,7 +46,7 @@ if (isset($_GET['delete'])) {
 
    <section class="messages">
       <h1 class="title">Tin nhắn</h1>
-      <div class="container-fluid">
+      <div class="container">
 
       <!-- Page Heading -->
       <h1 class="h3 mb-2 text-gray-800">Tables</h1>

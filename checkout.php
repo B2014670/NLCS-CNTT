@@ -20,13 +20,12 @@ if (isset($_POST['order'])) {
     $name_receive = mysqli_real_escape_string($conn, $_POST['name_receive']);
     $number_receive = mysqli_real_escape_string($conn, $_POST['number_receive']);
     $message_card = mysqli_real_escape_string($conn, $_POST['message_card']);
-
     $placed_on = date('d-m-Y');
 
     $cart_total = 0;
     $cart_products[] = '';
-
-    $cart_query = mysqli_query($conn, "SELECT id_cart, user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+    
+    $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($cart_query) > 0) {
         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
             $cart_products[] = $cart_item['name'] . ' (' . $cart_item['quantity'] . ') ';
@@ -45,6 +44,7 @@ if (isset($_POST['order'])) {
         $message[] = 'Đơn đặt hàng đã được đặt!';
     } else {
         mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on,name_receive,number_receive,message_card) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on','$name_receive','$number_receive','$message_card')") or die('query failed');
+        // mysqli_query($conn, "INSERT INTO `deltail_orders`(id_order, pid, quantity, price) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on','$name_receive','$number_receive','$message_card')") or die('query failed');
         // mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
         $message[] = 'Đặt hàng thành công!';
     }
@@ -168,7 +168,7 @@ if (isset($_POST['order'])) {
             <ul col-12>
                 <?php
                 $grand_total = 0;
-                $select_cart = mysqli_query($conn, "SELECT id_cart, user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+                $select_cart = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
                 if (mysqli_num_rows($select_cart) > 0) {
                     while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                         $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
