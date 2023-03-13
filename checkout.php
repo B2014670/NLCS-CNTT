@@ -24,7 +24,7 @@ if (isset($_POST['order'])) {
 
     $cart_total = 0;
     $cart_products[] = '';
-    
+
     $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($cart_query) > 0) {
         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
@@ -124,7 +124,7 @@ if (isset($_POST['order'])) {
                     <div class="inputBox">
                         <span>phương thức thanh toán :</span>
                         <select name="method" class="pay">
-                            <option value="thanh toán khi giao hàng" selected="selected" >thanh toán khi giao hàng (COD)</option>
+                            <option value="thanh toán khi giao hàng" selected="selected">thanh toán khi giao hàng (COD)</option>
                             <option value="credit card">
                                 chuyển khoản
                             </option>
@@ -165,26 +165,37 @@ if (isset($_POST['order'])) {
         </section>
         <section class="display-order col-md-4 ">
             <h3>Đơn hàng</h3>
-            <ul col-12>
-                <?php
-                $grand_total = 0;
-                $select_cart = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
-                if (mysqli_num_rows($select_cart) > 0) {
-                    while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                        $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
-                        $grand_total += $total_price;
-                ?>
-                        <li><?php echo $fetch_cart['name'] ?> <span><?php echo  $fetch_cart['price'] . 'đ' . ' x ' . $fetch_cart['quantity']  ?></span></li>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">First</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <?php
+                    <?php
+                    $grand_total = 0;
+                    $select_cart = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+                    if (mysqli_num_rows($select_cart) > 0) {
+                        while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+                            $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
+                            $grand_total += $total_price;
+                    ?>
+                            <tr>
+                                <td><?php echo $fetch_cart['name'] ?></td>
+                                <td><?php echo  $fetch_cart['price'] . 'đ' . ' x ' . $fetch_cart['quantity']  ?></td>
+                            </tr>
+                    <?php
+                        }
+                    } else {
+                        echo '<p class="empty">Giỏ của bạn trống!</p>';
                     }
-                } else {
-                    echo '<p class="empty">Giỏ của bạn trống!</p>';
-                }
-                ?>
-                <div class="grand-total">Tổng cộng : <span class=""><?php echo number_format($grand_total, 0, ",", ".") . "đ" ?></span></div>
+                    ?>
+                </tbody>
+            </table>
 
-            </ul>
+            <div class="grand-total">Tổng cộng : <span class=""><?php echo number_format($grand_total, 0, ",", ".") . "đ" ?></span></div>
 
         </section>
 

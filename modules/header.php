@@ -28,67 +28,43 @@ if (isset($message)) {
                         <a class="nav-link text-uppercase active " href="home.php">Trang chủ</a>
                     </li>
 
-
-                    <?php
-                        $select_danhmuc = mysqli_query($conn, "SELECT * FROM danhmuc") or die('query failed');
-                            if (mysqli_num_rows($select_danhmuc) > 0) {
-                                while ($fetch_danhmuc = mysqli_fetch_assoc($select_danhmuc)) {
-                    ?>
-                        <li class="nav-item px-2  dropdown">
-                            <a class="nav-link text-uppercase active dropdown-toggle" href="product.php" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false"><?php echo $fetch_danhmuc['name_danhmuc']; ?></a>
-                            <ul class="dropdown-menu p-1" aria-labelledby="dropdown03">
-    
-                                <?php                                
-                                    $id_danhmuc=$fetch_danhmuc['id_danhmuc'];
-                                                        
-                                    $select_topics = mysqli_query($conn, "SELECT * FROM topics WHERE id_danhmuc='$id_danhmuc'") or die('query failed');
-                                    if (mysqli_num_rows($select_topics) > 0) {
-                                        while ($fetch_topics = mysqli_fetch_assoc($select_topics)) {
-                                ?>
-                                    <!-- <div class="dropdown-divider"></div> -->
-                                    <li class="m-3" style="width:200px"><a class="dropdown-item" href="product.php?id_topic=<?php echo $fetch_topics['id_topic']; ?>"><?php echo $fetch_topics['name_topic']; ?></a></li>
-                                <?php
-                                        }
-                                    } 
-                                ?>
-                                <?php                                                                       
-
-                                    $select_types = mysqli_query($conn, "SELECT * FROM types WHERE id_danhmuc='$id_danhmuc'");
-                                    if (mysqli_num_rows($select_types) > 0) {
-                                            while ($fetch_types = mysqli_fetch_assoc($select_types)) {
-                                    ?>
-                                    <!-- <div class="dropdown-divider"></div> -->
-                                    <li class="m-3" style="width:200px"><a class="dropdown-item" href="product.php?id_type=<?php echo $fetch_types['id_type']; ?>"><?php echo $fetch_types['name_type']; ?></a></li>
-                                <?php
-                                        }
-                                    } 
-                                ?>
-                            </ul>
-                        </li>
-
-                    <?php
-                            }
-                                } 
-                    ?>
-                    <!-- <li class="nav-item px-2  dropdown">
-                        <a class="nav-link text-uppercase active dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Loại hoa</a>
-                        <ul class="dropdown-menu " aria-labelledby="dropdown03">
-                            <li><a class="dropdown-item" href="product.php">Tất cả sản phẩm</a></li>
+                    <li class="nav-item px-2  dropdown">
+                        <a class="nav-link text-uppercase active dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Chủ đề</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown03">
                             <?php
-                                $select_types = mysqli_query($conn, "SELECT * FROM `types`") or die('query failed');
-                                if (mysqli_num_rows($select_types) > 0) {
-                                    while ($fetch_types = mysqli_fetch_assoc($select_types)) {
+                            $select_topics = mysqli_query($conn, "SELECT * FROM `topics`") or die('query failed');
+                            if (mysqli_num_rows($select_topics) > 0) {
+                                while ($fetch_topics = mysqli_fetch_assoc($select_topics)) {
                             ?>
-                            <div class="dropdown-divider"></div>
-                            <li><a class="dropdown-item" href="product.php?id_type=<?php echo $fetch_types['name_type']; ?>"><?php echo $fetch_types['name_type']; ?></a></li>
+                                    
+                                    <li style="width:300px"  class="p-2 m-2 border-bottom"><a class="dropdown-item" href="product.php?id_topic=<?php echo $fetch_topics['id_topic']; ?>"><?php echo $fetch_topics['name_topic']; ?></a></li>
                             <?php
-                                    }
-                                } else {
-                                    echo '<p class="empty">Chưa có sản phẩm nào được thêm vào!</p>';
                                 }
+                            } else {
+                                echo '<p class="empty">Chưa có sản phẩm nào được thêm vào!</p>';
+                            }
                             ?>
                         </ul>
-                    </li> -->
+                    </li>
+
+
+                    <li class="nav-item px-2  dropdown">
+                        <a class="nav-link text-uppercase active dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Loại hoa</a>
+                        <ul class="dropdown-menu " aria-labelledby="dropdown03">
+                            <?php
+                            $select_types = mysqli_query($conn, "SELECT * FROM `types`") or die('query failed');
+                            if (mysqli_num_rows($select_types) > 0) {
+                                while ($fetch_types = mysqli_fetch_assoc($select_types)) {
+                            ?>
+                                    <li  style="width:300px"  class="p-2 m-2 border-bottom"><a class="dropdown-item" href="product.php?id_type=<?php echo $fetch_types['id_type']; ?>"><?php echo $fetch_types['name_type']; ?></a></li>
+                            <?php
+                                }
+                            } else {
+                                echo '<p class="empty">Chưa có sản phẩm nào được thêm vào!</p>';
+                            }
+                            ?>
+                        </ul>
+                    </li>
 
                     <li class="nav-item px-2 ">
                         <a class="nav-link text-uppercase active " href="about.php">Giới thiệu</a>

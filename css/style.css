@@ -424,27 +424,7 @@ a{
    text-align: center;
    text-transform: capitalize;
 }
-.display-order ul{
-   list-style:none;
-   border-radius: .5rem;
-   font-size: 2rem;
-   color:var(--black);
-   padding:1rem 1.5rem;
-   margin:.5rem;
-   background-color: var(--white);
-   box-shadow: var(--box-shadow);
-   border:var(--border);
-}
-.display-order li{
-   list-style:none;
-   font-size: 2rem;
-   color:var(--black);
-   padding:1rem 1.5rem;
-   margin:.5rem;
-   background-color: var(--white);
-   box-shadow: var(--box-shadow);
-   /* border-bottom:var(--border); */
-}
+
 
 .display-order span{
    float: right;
