@@ -31,7 +31,7 @@ if(!isset($admin_id)){
 </head>
 <body>
    
-<?php @include 'admin_header2.php'; ?>
+<?php @include 'admin_header.php'; ?>
 
 <section class="dashboard">
 

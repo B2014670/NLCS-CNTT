@@ -105,6 +105,7 @@ if (isset($message)) {
 
             </div>
             <div class="account-box ">
+                <a href="profile.php">Chỉnh sửa thông tin</a>
                 <p>username : <span><?php echo $_SESSION['user_name']; ?></span></p>
                 <p>email : <span><?php echo $_SESSION['user_email']; ?></span></p>
                 <a href="logout.php" class="delete-btn">đăng xuất</a>

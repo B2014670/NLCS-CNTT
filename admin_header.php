@@ -18,7 +18,7 @@ if(isset($message)){
       <a href="admin_page.php" class="logo">Trang <span>Admin</span></a>
 
       <nav class="navbar">
-         <a href="admin_page.php">Bảng điều khiển</a>
+         <a href="admin_category.php">Quản lý danh mục</a>
          <a href="admin_products.php">Quản lý sản phẩm</a>
          <a href="admin_orders.php">Quản lý đơn hàng</a>
          <a href="admin_users.php">Quản lý người dùng</a>
