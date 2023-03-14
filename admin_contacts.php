@@ -45,30 +45,27 @@ if (isset($_GET['delete'])) {
    <?php @include 'admin_header.php'; ?>
 
    <section class="messages">
-      <h1 class="title">Tin nhắn</h1>
+      <h1 class="title">Góp ý</h1>
       <div class="container">
 
-      <!-- Page Heading -->
-      <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-
-      <!-- DataTales Example -->
-      <div class="card shadow mb-4">
-         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Message</h6>
-         </div>
-         <div class="card-body">
-            <div class="table-responsive">
-               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
-                  <thead>
-                     <tr>
-                        <th scope="col">id người dùng</th>
-                        <th scope="col">tên tài khoản</th>
-                        <th scope="col">email </th>
-                        <th scope="col">tin nhắn</th>
-                        <th scope="col">Thao tác</th>
-                     </tr>
-                  </thead>
-                  <!-- <tfoot>
+         <!-- DataTales Example -->
+         <div class="card shadow mb-4">
+            <div class="card-header py-3">
+               <h1 class="m-0 font-weight-bold text-primary">DataTables Message</h1>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                           <th scope="col">id người dùng</th>
+                           <th scope="col">tên tài khoản</th>
+                           <th scope="col">email </th>
+                           <th scope="col">tin nhắn</th>
+                           <th scope="col">Thao tác</th>
+                        </tr>
+                     </thead>
+                     <!-- <tfoot>
                      <tr>
                         <th scope="col">id người dùng</th>
                         <th scope="col">tên tài khoản</th>
@@ -77,54 +74,54 @@ if (isset($_GET['delete'])) {
                         <th scope="col">Thao tác</th>
                      </tr>
                   </tfoot> -->
-                  <tbody>
-                     <?php
-                     $select_message = mysqli_query($conn, "SELECT * FROM `message`") or die('query failed');
-                     if (mysqli_num_rows($select_message) > 0) {
-                        while ($fetch_message = mysqli_fetch_assoc($select_message)) {
-                     ?>
-                           <tr>
-                              <td>
-                                 <div>
-                                    <span><?php echo $fetch_message['id']; ?></span>
-                                 </div>
-                              </td>
+                     <tbody>
+                        <?php
+                        $select_message = mysqli_query($conn, "SELECT * FROM `message`") or die('query failed');
+                        if (mysqli_num_rows($select_message) > 0) {
+                           while ($fetch_message = mysqli_fetch_assoc($select_message)) {
+                        ?>
+                              <tr>
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_message['id']; ?></span>
+                                    </div>
+                                 </td>
 
-                              <td>
-                                 <div>
-                                    <span><?php echo $fetch_message['name']; ?></span>
-                                 </div>
-                              </td>
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_message['name']; ?></span>
+                                    </div>
+                                 </td>
 
-                              <td>
-                                 <span><?php echo $fetch_message['email']; ?></span>
-                              </td>
+                                 <td>
+                                    <span><?php echo $fetch_message['email']; ?></span>
+                                 </td>
 
-                              <td>
-                                 <span><?php echo $fetch_message['message']; ?></span>
-                              </td>
+                                 <td>
+                                    <span><?php echo $fetch_message['message']; ?></span>
+                                 </td>
 
-                              <td>
-                                 <a href="admin_contacts.php?delete=<?php echo $fetch_message['id']; ?>" onclick="return confirm('delete this message?');" class="delete-btn">xóa</a>
-                              </td>
+                                 <td>
+                                    <a href="admin_contacts.php?delete=<?php echo $fetch_message['id']; ?>" onclick="return confirm('delete this message?');" class="delete-btn btn-lg mt-0">xóa</a>
+                                 </td>
 
-                           </tr>
-                     <?php
+                              </tr>
+                        <?php
+                           }
+                        } else {
+                           echo '<p class="empty">bạn không có tin nhắn!</p>';
                         }
-                     } else {
-                        echo '<p class="empty">bạn không có tin nhắn!</p>';
-                     }
-                     ?>
-                  </tbody>
-               </table>
+                        ?>
+                     </tbody>
+                  </table>
+               </div>
             </div>
          </div>
-      </div>
 
-   </div>
+      </div>
    </section>
 
-   
+
    <script src="js/admin_script.js"></script>
 
    <!-- Bootstrap core JavaScript-->

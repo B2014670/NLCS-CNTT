@@ -10,35 +10,6 @@ if (!isset($admin_id)) {
    header('location:login.php');
 };
 
-if (isset($_POST['add_product'])) {
-   $topic = mysqli_real_escape_string($conn, $_POST['topic']);
-   $type = mysqli_real_escape_string($conn, $_POST['type']);
-   $name = mysqli_real_escape_string($conn, $_POST['name']);
-   $price = mysqli_real_escape_string($conn, $_POST['price']);
-   $details = mysqli_real_escape_string($conn, $_POST['details']);
-   $image = $_FILES['image']['name'];
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folter = 'uploaded_img/' . $image;
-
-   $select_product_name = mysqli_query($conn, "SELECT name FROM `products` WHERE name = '$name'") or die('query failed');
-
-   if (mysqli_num_rows($select_product_name) > 0) {
-      $message[] = 'tên sản phẩm đã tồn tại!';
-   } else {
-      $insert_product = mysqli_query($conn, "INSERT INTO `products`(id_topic, id_type, name, details, price, image) VALUES('$topic','$type','$name', '$details', '$price', '$image')") or die('query failed');
-
-      if ($insert_product) {
-         if ($image_size > 2000000) {
-            $message[] = 'kích thước ảnh quá lớn!';
-         } else {
-            move_uploaded_file($image_tmp_name, $image_folter);
-            $message[] = 'sản phẩm thêm thành công!';
-         }
-      }
-   }
-}
-
 if (isset($_GET['delete'])) {
 
    $delete_id = $_GET['delete'];
@@ -79,82 +50,33 @@ if (isset($_GET['delete'])) {
 <body>
 
    <?php @include 'admin_header.php'; ?>
-
-   <section class="add-products">
-
-      <form action="" method="POST" enctype="multipart/form-data">
-         <h3>thêm sản phẩm mới</h3>
-         
-         <select class="box" name="topic">
-            <option value="0" selected> Chọn chủ đề </option>
-
-            <?php                                
-            $select_topics = mysqli_query($conn, "SELECT * FROM topics ") or die('query failed');
-            if (mysqli_num_rows($select_topics) > 0) {
-               while ($fetch_topics = mysqli_fetch_assoc($select_topics)) {
-            ?>
-            <option value=" <?php echo $fetch_topics['id_topic']; ?> "> <?php echo $fetch_topics['name_topic']; ?> </option>
-            <?php
-                  }
-               } 
-            ?>
-         </select>
-      
-         <select class="box" name="type">
-            <option value="0" selected> Chọn loại</option>
-            <?php                                
-            $select_type = mysqli_query($conn, "SELECT * FROM types ") or die('query failed');
-            if (mysqli_num_rows($select_type) > 0) {
-               while ($fecth_types = mysqli_fetch_assoc($select_type)) {
-            ?>
-            <option value=" <?php echo $fecth_types['id_type']; ?> "> <?php echo $fecth_types['name_type']; ?> </option>
-            <?php
-                  }
-               } 
-            ?>
-         </select>
-         
-
-        
-        
-        
-         <input type="text" class="box" required placeholder="nhập tên sản phẩm" name="name">
-         <input type="number" min="0" class="box" required placeholder="nhập giá sản phẩm" name="price">
-         <textarea name="details" class="box" required placeholder="nhập mô tả sản phẩm" cols="30" rows="10"></textarea>
-         <input type="file" accept="image/jpg, image/jpeg, image/png" required class="box" name="image">
-         <input type="submit" value="thêm sản phẩm" name="add_product" class="btn">
-      </form>
-
-   </section>
-
-      
+   <section>
+   <h1 class="title">Sản phẩm</h1>
       <div class="container-fluid">
-
-      <!-- Page Heading -->
-      <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-
-      <!-- DataTales Example -->
-      <div class="card shadow mb-4">
-         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Product</h6>
-         </div>
-         <div class="card-body">
-            <div class="table-responsive">
-               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
-                  <thead>
-                  <tr>
-                     <th scope="col">id sp</th>
-                     <th scope="col">id chủ đề</th>
-                     <th scope="col">id loại </th>
-                     <th scope="col" style="width:100px;">tên </th>
-                     <th scope="col">giá</th>
-                     <th scope="col">giá hiện tại</th>
-                     <th scope="col"style="width:200px;">mô tả</th>
-                     <th scope="col">ảnh</th>
-                     <th scope="col" style="width:100px;">thao tác</th>
-                  </tr>
-                  </thead>
-                  <!-- <tfoot>
+         <!-- DataTales Example -->
+         <div class="card shadow mb-4">
+            <div class="card-header py-3 row">
+               <h1 class="col m-0 font-weight-bold text-primary">DataTables Product</h1>
+               <a href="admin_add_product.php" class="col-lg-1 btn btn-primary ">
+                  <i class="fa fa-plus"></i> Thêm sản phẩm</a>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                           <th scope="col" class="col-md-1">id sp</th>
+                           <th scope="col" class="col-md-1">id chủ đề</th>
+                           <th scope="col" class="col-md-1">id loại </th>
+                           <th scope="col" class="col-md-2">tên </th>
+                           <th scope="col" class="col-md-1">giá</th>
+                           <th scope="col" class="col-md-1">giá sale</th>
+                           <th scope="col">mô tả</th>
+                           <th scope="col" class="col-md-1">ảnh</th>
+                           <th scope="col" style="width:100px;">thao tác</th>
+                        </tr>
+                     </thead>
+                     <!-- <tfoot>
                      <tr>
                         <th scope="col">id người dùng</th>
                         <th scope="col">tên tài khoản</th>
@@ -163,76 +85,76 @@ if (isset($_GET['delete'])) {
                         <th scope="col">Thao tác</th>
                      </tr>
                   </tfoot> -->
-                  <tbody>
-                  <?php
-                  $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
-                  if (mysqli_num_rows($select_products) > 0) {
-                     while ($fetch_products = mysqli_fetch_assoc($select_products)) {
-                  ?>
-                        <tr>
-                           <td>
-                              <div>
-                                 <span><?php echo $fetch_products['id']; ?></span>
-                              </div>
-                           </td>
+                     <tbody>
+                        <?php
+                        $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
+                        if (mysqli_num_rows($select_products) > 0) {
+                           while ($fetch_products = mysqli_fetch_assoc($select_products)) {
+                        ?>
+                              <tr>
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_products['id']; ?></span>
+                                    </div>
+                                 </td>
 
-                           <td>
-                              <div>
-                                 <span><?php echo $fetch_products['id_topic']; ?></span>
-                              </div>
-                           </td>
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_products['id_topic']; ?></span>
+                                    </div>
+                                 </td>
 
-                           <td>
-                              <span><?php echo $fetch_products['id_type']; ?></span>
-                           </td>
+                                 <td>
+                                    <span><?php echo $fetch_products['id_type']; ?></span>
+                                 </td>
 
-                           <td>
-                              <span><?php echo $fetch_products['name']; ?></span>
-                           </td>
+                                 <td>
+                                    <span><?php echo $fetch_products['name']; ?></span>
+                                 </td>
 
-                           <td>
-                              <span><?php echo $fetch_products['price']; ?></span>
-                           </td>
+                                 <td>
+                                    <span><?php echo $fetch_products['price']; ?></span>
+                                 </td>
 
-                           <td>
-                              <span><?php echo $fetch_products['price']; ?></span>
-                           </td>
+                                 <td>
+                                    <span><?php echo $fetch_products['price']; ?></span>
+                                 </td>
 
-                           <td>
-                              <span ><?php echo $fetch_products['details']; ?></span>
-                           </td>
+                                 <td>
+                                    <span><?php echo $fetch_products['details']; ?></span>
+                                 </td>
 
-                           <td>
-                              <span class="text-center "><img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>"  alt="" class="image" height="80px"></span>
-                           </td>
+                                 <td>
+                                    <span class="text-center "><img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="" class="image" height="100px"></span>
+                                 </td>
 
-                           <td>
-                              <a href="admin_update_product.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn btn-lg">cập nhật</a>
-                              <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn btn-lg" onclick="return confirm('delete this product?');">xóa</a>
-                           </td>
-                        </tr>
-                  <?php
-                     }
-                  }
-                  ?>
-                  </tbody>
-               </table>
+                                 <td>
+                                    <a href="admin_update_product.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn btn-lg">cập nhật</a>
+                                    <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn btn-lg" onclick="return confirm('delete this product?');">xóa</a>
+                                 </td>
+                              </tr>
+                        <?php
+                           }
+                        }
+                        ?>
+                     </tbody>
+                  </table>
+               </div>
             </div>
          </div>
-      </div>
 
-   </div>
+      </div>
 
    </section>
    <script src="js/admin_script.js"></script>
-                     <!-- Bootstrap core JavaScript-->
+   <!-- Bootstrap core JavaScript-->
    <script src="vendor/jquery/jquery.min.js"></script>
    <!-- Page level plugins -->
    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
    <!-- Page level custom scripts -->
    <script src="js/demo/datatables-demo.js"></script>
-   
+
 </body>
 
 </html>
