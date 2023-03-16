@@ -49,7 +49,9 @@ if (isset($_POST['order'])) {
         $message[] = 'Đặt hàng thành công!';
     }
 }
-
+$sql = "SELECT * FROM users where id='$user_id'";
+$sth = mysqli_query($conn, "SELECT * FROM users where id='$user_id'");
+$row = mysqli_fetch_array($sth);
 ?>
 
 <!DOCTYPE html>
@@ -88,15 +90,15 @@ if (isset($_POST['order'])) {
                 <div class="flex">
                     <div class="inputBox">
                         <span>Tên người đặt:</span>
-                        <input type="text" name="name" placeholder="Họ tên người đặt" required>
+                        <input type="text" name="name" value="<?php echo $row['name']?? '' ?>" placeholder="Họ tên người đặt" required>
                     </div>
                     <div class="inputBox">
                         <span>Số điện thoại :</span>
-                        <input type="text" name="number" placeholder="Số điện thọai" required>
+                        <input type="text" name="number" value="<?php echo $row['phone']?? '' ?>" placeholder="Số điện thọai" required>
                     </div>
                     <div class="inputBox">
                         <span>email :</span>
-                        <input type="email" name="email" placeholder="nhập email của bạn" required>
+                        <input type="email" name="email" value="<?php echo  $row['email']?? '' ?>" placeholder="nhập email của bạn" required>
                     </div>
 
                     <!-- <div class="inputBox">
@@ -119,7 +121,7 @@ if (isset($_POST['order'])) {
         </div> -->
                     <div class="inputBox">
                         <span>Địa chỉ giao hàng :</span>
-                        <input type="text" name="specific_address" placeholder="thôn, khóm, số nhà,..." required>
+                        <input type="text" name="specific_address" value="<?php echo $row['address'] ?? ''?>" placeholder="thôn, khóm, số nhà,..." required>
                     </div>
                     <div class="inputBox">
                         <span>phương thức thanh toán :</span>
@@ -169,22 +171,23 @@ if (isset($_POST['order'])) {
                 <thead>
                     <tr>
                         <th scope="col">Tên sản phẩm</th>
-                        <th scope="col">First</th>
+                        <th scope="col">Giá</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     <?php
                     $grand_total = 0;
-                    $select_cart = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+                    $select_cart = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, sale_price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
                     if (mysqli_num_rows($select_cart) > 0) {
                         while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                            $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
+                            $price = $fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'];
+                            $total_price = ($price  * $fetch_cart['quantity']);                           
                             $grand_total += $total_price;
                     ?>
                             <tr>
                                 <td><?php echo $fetch_cart['name'] ?></td>
-                                <td><?php echo  $fetch_cart['price'] . 'đ' . ' x ' . $fetch_cart['quantity']  ?></td>
+                                <td><?php echo number_format($fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'], 0, ",", ".") . "đ" . ' x ' . $fetch_cart['quantity']  ?></td>
                             </tr>
                     <?php
                         }

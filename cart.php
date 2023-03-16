@@ -25,11 +25,10 @@ if (isset($_POST['update_quantity'])) {
     $cart_id = $_POST['cart_id'];
     $cart_quantity = $_POST['cart_quantity'];
     $select_item_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_cart = '$cart_id' AND quantity <> '$cart_quantity' ") or die('query failed');
-    if (mysqli_num_rows($select_item_cart)>0){
+    if (mysqli_num_rows($select_item_cart) > 0) {
         mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity' WHERE id_cart = '$cart_id'") or die('query failed');
         $message[] = 'số lượng giỏ hàng được cập nhật!';
     }
-    
 }
 
 ?>
@@ -85,7 +84,7 @@ if (isset($_POST['update_quantity'])) {
                         <tbody class="text-center">
                             <?php
                             $grand_total = 0;
-                            $select_cart = mysqli_query($conn, "SELECT id_cart, user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+                            $select_cart = mysqli_query($conn, "SELECT id_cart, user_id, pid, name, quantity, price, sale_price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
                             if (mysqli_num_rows($select_cart) > 0) {
                                 while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                             ?>
@@ -99,23 +98,29 @@ if (isset($_POST['update_quantity'])) {
                                             </div>
                                         </td>
                                         <td class="">
-                                            <div class="mt-5"><?php echo $fetch_cart['price'] ?></div>
+                                            <div class="mt-5"><?php echo number_format($fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'], 0, ",", ".") . "đ" ?></div>
                                         </td>
                                         <td class="">
                                             <form class="mt-2 p-0" method="POST">
                                                 <input type="hidden" value="<?php echo $fetch_cart['id_cart']; ?>" name="cart_id">
-                                                
+
                                                 <input type="number" min="1" value="<?php echo $fetch_cart['quantity']; ?>" name="cart_quantity" class="qty text-center border p-2 m-0" style="width:50px">
-                                              
+
                                                 <input type="submit" value="Cập nhật" class="option-btn p-2" name="update_quantity">
                                             </form>
                                         </td>
                                         <td class="">
-                                            <div class="mt-5"><?php echo $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']); ?></div>
+                                            <div class="mt-5">
+                                                <?php
+                                                $price = $fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'];
+                                                $sub_total = ($price  * $fetch_cart['quantity']);
+                                                echo number_format($sub_total, 0, ",", ".") . "đ";
+                                                ?>
+                                            </div>
                                         </td>
-                                        <td >    
-                                                                                 
-                                            <a href="cart.php?delete=<?php echo $fetch_cart['pid']; ?>" class="fas fa-trash text-light bg-danger p-3 mt-4 rounded"  onclick="return confirm('delete this from cart?');"></a>
+                                        <td>
+
+                                            <a href="cart.php?delete=<?php echo $fetch_cart['pid']; ?>" class="fas fa-trash text-light bg-danger p-3 mt-4 rounded" onclick="return confirm('delete this from cart?');"></a>
                                         </td>
 
                                     </tr>

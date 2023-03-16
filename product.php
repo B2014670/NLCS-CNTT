@@ -86,7 +86,7 @@ if (isset($_POST['add_to_cart'])) {
                         <a href="view_page.php?pid=<?php echo $fetch_products['id']; ?>">
                             <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="" class="image">
                             <div class="name"><?php echo $fetch_products['name']; ?></div>
-                            <div class="price"><?php echo $fetch_products['price']; ?> đ</div>
+                            <div class="price"><?php echo number_format($fetch_products['price'], 0, ",", ".") . "đ" ?></div>
                         </a>
                         <input type="hidden" name="product_quantity" value="1" min="0" class="qty">
                         <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">

@@ -351,7 +351,9 @@ a{
    flex-wrap: wrap;
    gap:1.5rem;
 }
-
+.about .flex li{
+   list-style-type: none;
+}
 .about .flex .image{
    flex:1 1 40rem;
 }
@@ -517,6 +519,33 @@ a{
 
 .placed-orders .box-container .box p span{
    color:var(--pink);
+}
+/* profile */
+
+.profile .box{
+   background-color: var(--white);
+   padding:1rem 2rem;
+   border:var(--border);
+   box-shadow: var(--box-shadow);
+   flex:1 1 40rem;
+   border-radius: .5rem;
+}
+
+.profile .box label{
+   margin: .5rem 0;
+   font-size: 2rem;
+   line-height: 1.5;
+   color:var(--light-color);
+}
+.profile  input{
+   margin:1rem 0;
+   width: 100%;
+   background-color: var(--light-bg);
+   padding:1.2rem 1.4rem;
+   border:var(--border);
+   font-size: 1.8rem;
+   color:var(--black);
+   border-radius: .5rem;
 }
 
 

@@ -73,11 +73,12 @@ if (isset($_POST['add_to_cart'])) {
             $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$pid'") or die('query failed');
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
+                    
         ?>
 
                     <div class="container">
                         <div class="card col-lg-10 mx-auto">
-                            <div  class=" text-center  mx-auto my-5">
+                            <div class=" text-center  mx-auto my-5">
                                 <h1>Chi tiết sản phẩm</h1>
                             </div>
                             <div class="card-body">
@@ -88,20 +89,26 @@ if (isset($_POST['add_to_cart'])) {
                                     <div class="col">
                                         <h2 class="card-title name"><?php echo $fetch_products['name']; ?></h2>
                                         <h2 class="mt">
-                                            <span class="text-decoration-line-through"><?php echo $fetch_products['price']; ?> </span> 
-                                            <h1 ><?php echo $fetch_products['price']; ?> đ</h1>
+                                            <?php
+                                                if ($fetch_products['sale_price'] != 0){
+                                                    echo '<span class="text-decoration-line-through" >';
+                                                    echo number_format($fetch_products['price'] ?? '', 0, ",", ".") . "đ"  .'</span>';
+                                                }
+                                                    
+                                            ?>
+                                            <h1><?php echo number_format($fetch_products['sale_price'] != 0 ? $fetch_products['sale_price'] : $fetch_products['price'], 0, ",", ".") . "đ" ?></h1>
                                         </h2>
                                         <form action="" method="POST">
                                             <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
-                                           
+
                                             <div class="row ">
-                                               <span class="col-3 my-auto"> Số lượng: </span><input type="number" name="product_quantity" value="1" min="1" class="form-control col-9 text-center py-3 w-25" style="font-size: large;">
+                                                <span class="col-3 my-auto"> Số lượng: </span><input type="number" name="product_quantity" value="1" min="1" class="form-control col-9 text-center py-3 w-25" style="font-size: large;">
                                             </div>
                                             <input type="submit" value="add to cart" name="add_to_cart" class="btn w-50">
                                         </form>
                                         <h2 class="box-title mt-5">Mô tả sản phẩm</h2>
                                         <div class="details"><?php echo $fetch_products['details']; ?></div>
-                                        
+
                                         <div class="border mt-3 p-3">
                                             <h4>Lưu ý</h4>
                                             <p class="font-italic">Sản phẩm bạn đang chọn là sản phẩm được thiết kế đặc biệt!</p>
@@ -126,7 +133,7 @@ if (isset($_POST['add_to_cart'])) {
     </section>
 
     <?php @include 'modules/same_product.php'; ?>
-       
+
 
 
 

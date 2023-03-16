@@ -24,7 +24,7 @@ if(isset($_POST['update_product'])){
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folter = 'uploaded_img/'.$image;
    $old_image = $_POST['update_p_image'];
-   $image_new = rand(1,10000) .time() .$_FILES['image']['name'] ;
+   // $image_new = rand(1,10000) .time() .$_FILES['image']['name'] ;
    if(!empty($image)){
       if($image_size > 2000000){
          $message[] = 'image file size is too large!';
