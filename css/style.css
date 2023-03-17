@@ -314,6 +314,69 @@ a{
    border:var(--border);
    margin:.5rem 0;
 }
+  /* // trang chi tiet san pham */
+  
+.card-comment {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   min-width: 0;
+   padding: 10px;
+   margin: 10px;
+   word-wrap: break-word;
+   border-bottom:1px solid #666;
+   background-color: #fff;
+   background-clip: border-box;
+   /* border-radius: 6px; */
+}
+.comment-box{
+   padding:5px;
+}
+
+.comment-area textarea{
+  resize: none; 
+       border: 1px solid #ad9f9f;
+}
+
+.rating {
+display: flex;
+       margin-top: -10px;
+   flex-direction: row-reverse;
+   margin-left: -4px;
+       float: left;
+}
+
+.rating>input {
+   display: none
+}
+
+.rating>label,.start-icon {
+       position: relative;
+   width: 19px;
+   font-size: 25px;
+   color: #ff0000;
+   cursor: pointer;
+}
+
+.rating>label::before,.star-icon::before {
+   content: "\2605";
+   position: absolute;
+   opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before,.star-icon:before {
+   opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+   opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+   opacity: 0.4
+}
+ /* // */
 
 .home-contact{
    background-color: var(--black);
