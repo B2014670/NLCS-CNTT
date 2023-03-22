@@ -7,10 +7,12 @@ session_start();
 $user_id = $_SESSION['user_id'];
 
 if (!isset($user_id)) {
-    header('location:login.php');
+    // header('location:login.php');
 };
 if (isset($_POST['add_to_cart'])) {
-
+    if (!isset($user_id)) {
+        header('location:login.php');
+    };
     $product_id = $_POST['product_id'];
     $product_quantity = $_POST['product_quantity'];
 
@@ -23,7 +25,6 @@ if (isset($_POST['add_to_cart'])) {
         $message[] = 'Thêm vào giỏ hàng thành công';
     }
 }
-
 
 ?>
 

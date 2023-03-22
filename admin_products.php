@@ -11,16 +11,15 @@ if (!isset($admin_id)) {
 };
 
 if (isset($_GET['delete'])) {
-
    $delete_id = $_GET['delete'];
    $select_delete_image = mysqli_query($conn, "SELECT image FROM `products` WHERE id = '$delete_id'") or die('query failed');
    $fetch_delete_image = mysqli_fetch_assoc($select_delete_image);
    unlink('uploaded_img/' . $fetch_delete_image['image']);
    mysqli_query($conn, "DELETE FROM `products` WHERE id = '$delete_id'") or die('query failed');
-   mysqli_query($conn, "DELETE FROM `wishlist` WHERE pid = '$delete_id'") or die('query failed');
    mysqli_query($conn, "DELETE FROM `cart` WHERE pid = '$delete_id'") or die('query failed');
    header('location:admin_products.php');
 }
+
 
 ?>
 
@@ -50,6 +49,7 @@ if (isset($_GET['delete'])) {
 <body>
 
    <?php @include 'admin_header.php'; ?>
+   
    <section>
    <h1 class="title">Sản phẩm</h1>
       <div class="container-fluid">
@@ -65,9 +65,9 @@ if (isset($_GET['delete'])) {
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
-                           <th scope="col" class="col-md-1">id sp</th>
-                           <th scope="col" class="col-md-1">id chủ đề</th>
-                           <th scope="col" class="col-md-1">id loại </th>
+                           <th scope="col" class="col-md-1">#</th>
+                           <th scope="col" class="col-md-1">chủ đề</th>
+                           <th scope="col" class="col-md-1">loại </th>
                            <th scope="col" class="col-md-2">tên </th>
                            <th scope="col" class="col-md-1">giá</th>
                            <th scope="col" class="col-md-1">giá sale</th>
@@ -87,7 +87,7 @@ if (isset($_GET['delete'])) {
                   </tfoot> -->
                      <tbody>
                         <?php
-                        $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
+                        $select_products = mysqli_query($conn, "SELECT * FROM products a JOIN topics b ON a.id_topic=b.id_topic JOIN types c ON a.id_type=c.id_type ") or die('query failed');
                         if (mysqli_num_rows($select_products) > 0) {
                            while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                         ?>
@@ -100,12 +100,12 @@ if (isset($_GET['delete'])) {
 
                                  <td>
                                     <div>
-                                       <span><?php echo $fetch_products['id_topic']; ?></span>
+                                       <span><?php echo $fetch_products['name_topic']??''; ?></span>
                                     </div>
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_products['id_type']; ?></span>
+                                    <span><?php echo $fetch_products['name_type']??'' ?></span>
                                  </td>
 
                                  <td>
@@ -117,7 +117,7 @@ if (isset($_GET['delete'])) {
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_products['price']; ?></span>
+                                    <span><?php echo $fetch_products['sale_price']!=0 ?$fetch_products['sale_price'] :$fetch_products['price']; ?></span>
                                  </td>
 
                                  <td>

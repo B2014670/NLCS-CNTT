@@ -15,7 +15,11 @@ if (isset($_GET['delete'])) {
    mysqli_query($conn, "DELETE FROM `message` WHERE id = '$delete_id'") or die('query failed');
    header('location:admin_contacts.php');
 }
-
+if (isset($_GET['delete_comment'])) {
+   $delete_id = $_GET['delete_comment'];
+   mysqli_query($conn, "DELETE FROM `comment` WHERE id = '$delete_id'") or die('query failed');
+   header('location:admin_contacts.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +47,93 @@ if (isset($_GET['delete'])) {
 <body>
 
    <?php @include 'admin_header.php'; ?>
+   <section class="">
+      <h1 class="title">Bình luận, đánh giá</h1>
+      <div class="container">
+         <!-- DataTales Example -->
+         <div class="card shadow mb-4">
+            <div class="card-header py-3">
+               <h1 class="m-0 font-weight-bold text-primary">DataTables Comment</h1>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                           <th scope="col">#</th>
+                           <th scope="col">tên khách hàng</th>
+                           <th scope="col">sản phẩm </th>
+                           <th scope="col">nội dung bình luận</th>
+                           <th scope="col">số sao</th>
+                           <th scope="col">thời gian</th>
+                           <th scope="col">Thao tác</th>
+                        </tr>
+                     </thead>
+                     <!-- <tfoot>
+                     <tr>
+                        <th scope="col">id người dùng</th>
+                        <th scope="col">tên tài khoản</th>
+                        <th scope="col">email </th>
+                        <th scope="col">tin nhắn</th>
+                        <th scope="col">Thao tác</th>
+                     </tr>
+                  </tfoot> -->
+                     <tbody>
+                        <?php
+                        $select_comment = mysqli_query($conn, "SELECT a.id, b.name, c.name AS namep, a.content, a.vote, a.time  FROM comment a JOIN users b ON a.id_user=b.id JOIN products c ON a.pid=c.id") or die('query failed');
+                        if (mysqli_num_rows($select_comment) > 0) {
+                           while ($fetch_comment = mysqli_fetch_assoc($select_comment)) {
+                        ?>
+                              <tr>
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_comment['id']; ?></span>
+                                    </div>
+                                 </td>
+
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_comment['name']; ?></span>
+                                    </div>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_comment['namep']; ?></span>
+                                 </td>
+
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_comment['content']; ?></span>
+                                    </div>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_comment['vote']; ?></span>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_comment['time']; ?></span>
+                                 </td>
+
+                                 <td>
+                                    <a href="admin_contacts.php?delete_comment=<?php echo $fetch_comment['id']; ?>" onclick="return confirm('delete this message?');" class="delete-btn btn-lg mt-0">xóa</a>
+                                 </td>
+
+                              </tr>
+                        <?php
+                           }
+                        } else {
+                           echo '<p class="empty">bạn không có tin nhắn!</p>';
+                        }
+                        ?>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+
+      </div>
+   </section>
 
    <section class="messages">
       <h1 class="title">Góp ý</h1>
@@ -58,9 +149,10 @@ if (isset($_GET['delete'])) {
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
-                           <th scope="col">id người dùng</th>
+                           <th scope="col">#</th>
                            <th scope="col">tên tài khoản</th>
                            <th scope="col">email </th>
+                           <th scope="col">số điện thoại</th>
                            <th scope="col">tin nhắn</th>
                            <th scope="col">Thao tác</th>
                         </tr>
@@ -98,6 +190,12 @@ if (isset($_GET['delete'])) {
                                  </td>
 
                                  <td>
+                                    <div>
+                                       <span><?php echo $fetch_message['number']; ?></span>
+                                    </div>
+                                 </td>
+
+                                 <td>
                                     <span><?php echo $fetch_message['message']; ?></span>
                                  </td>
 
@@ -121,7 +219,7 @@ if (isset($_GET['delete'])) {
       </div>
    </section>
 
-
+   
    <script src="js/admin_script.js"></script>
 
    <!-- Bootstrap core JavaScript-->

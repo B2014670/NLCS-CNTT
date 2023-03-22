@@ -13,7 +13,7 @@ if (!isset($admin_id)) {
 if (isset($_POST['update_order'])) { // chưa check spam trùng
    $order_id = $_POST['order_id'];
    $update_payment = $_POST['update_payment'];
-   $select_pendings = mysqli_query($conn, "SELECT * FROM `orders` WHERE  id = '$order_id' AND payment_status='$update_payment'") or die('query failed');
+   $select_pendings = mysqli_query($conn, "SELECT payment_status FROM `orders` WHERE  id = '$order_id' AND payment_status='$update_payment'") or die('query failed');
    if (mysqli_num_rows($select_pendings) > 0) {
    } else {
       mysqli_query($conn, "UPDATE `orders` SET payment_status = '$update_payment' WHERE id = '$order_id'") or die('query failed');
@@ -89,7 +89,7 @@ if (isset($_GET['delete'])) {
                   </tfoot> -->
                      <tbody>
                         <?php
-                        $select_orders = mysqli_query($conn, "SELECT * FROM `orders`") or die('query failed');
+                        $select_orders = mysqli_query($conn,"SELECT placed_on,orders.id AS id, name, address, phone, payment_status FROM orders JOIN users ON orders.user_id=users.id");
                         if (mysqli_num_rows($select_orders) > 0) {
                            while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
                         ?>
@@ -111,7 +111,7 @@ if (isset($_GET['delete'])) {
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_orders['number']; ?></span>
+                                    <span><?php echo $fetch_orders['phone']; ?></span>
                                  </td>
                                  <td>
                                     <span><?php echo $fetch_orders['placed_on']; ?></span>
@@ -137,7 +137,7 @@ if (isset($_GET['delete'])) {
                         <?php
                            }
                         } else {
-                           echo '<p class="empty">bạn không có tin nhắn!</p>';
+                           echo '<p class="empty">Không có đơn hàng nào!</p>';
                         }
                         ?>
                      </tbody>

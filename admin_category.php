@@ -58,7 +58,7 @@ if (isset($_POST['add_type'])) {
     <?php @include 'admin_header.php'; ?>
     <section>
         <h1 class="title">Danh mục</h1>
-        <div class="container-fluid">
+        <div class="container">
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3 row">

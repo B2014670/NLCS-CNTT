@@ -97,10 +97,10 @@ if (isset($_POST['update_quantity'])) {
                                                 <a class=" text-center  text-dark" href="view_page.php?pid=<?php echo $fetch_cart['pid']; ?>"><?php echo $fetch_cart['name']; ?></a>
                                             </div>
                                         </td>
-                                        <td class="">
+                                        <td >
                                             <div class="mt-5"><?php echo number_format($fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'], 0, ",", ".") . "đ" ?></div>
                                         </td>
-                                        <td class="">
+                                        <td >
                                             <form class="mt-2 p-0" method="POST">
                                                 <input type="hidden" value="<?php echo $fetch_cart['id_cart']; ?>" name="cart_id">
 
@@ -109,7 +109,7 @@ if (isset($_POST['update_quantity'])) {
                                                 <input type="submit" value="Cập nhật" class="option-btn p-2" name="update_quantity">
                                             </form>
                                         </td>
-                                        <td class="">
+                                        <td >
                                             <div class="mt-5">
                                                 <?php
                                                 $price = $fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'];

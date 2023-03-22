@@ -1,6 +1,6 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins'); */
 :root{
    --pink:#e84393;
    --red:#c0392b;
@@ -15,7 +15,7 @@
 }
 
 *{
-   /* font-family: 'Rubik', sans-serif; */
+   /* font-family: 'Poppins', sans-serif; */
    margin:0; padding:0;
    font-size: large;
    box-sizing: border-box;
@@ -266,6 +266,7 @@ a{
 }
 
 .products .box-container .box .btn{
+   border-radius:0 0 0.5rem 0.5rem  ;
    width: 100%;
 }
 

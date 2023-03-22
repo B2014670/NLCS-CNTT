@@ -2,15 +2,14 @@
     include('config.php');
     session_start();
 
-    $user_id = $_SESSION['user_id'];
-
-    if (!isset($user_id)) {
-        echo "<meta http-equiv='refresh' content='0;url=../../index.php?quanly=dangnhap'>";
-        echo "<script>alert('Bạn cần đăng nhập để bình luận.')</script>";
-        header('location:login.php');
+    
+    if (!isset($_SESSION['user_id'])) {
+        echo 'Bạn cần đăng nhập để bình luận.';
+        // header('location:login.php');
     }
     else{
     if(isset($_POST['thembinhluan'])){
+        $user_id = $_SESSION['user_id'];
         $pid = $_GET['pid'];
         $noidung=$_POST['content'];
 

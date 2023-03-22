@@ -52,7 +52,7 @@ if (isset($_POST['capnhatthongtin'])) {
         $sql_taikhoan = mysqli_query($conn, $sql2);
         $row = mysqli_fetch_array($sql_taikhoan);
 
-        if (!empty($row['avatar']) && file_exists('uploaded_img/' . $row['avatar'])) {
+        if (!empty($row['avatar']) && file_exists('uploaded_img/' . $row['avatar']) && $row['avatar']!='avtDefault.png') {
             unlink('uploaded_img/' . $row['avatar']);
         }
         $sql = "UPDATE users SET name='$hoten', email='$email',phone='$phone',address='$diachi',avatar='$avatar' WHERE id='$user_id'";
@@ -108,7 +108,7 @@ $row = mysqli_fetch_array($sth);
             <div class="row">
                 <!-- <div class="col-4 d-flex justify-content-center align-items-center"> -->
                 <div class="col-4 text-center">
-                    <img class="rounded-circle d-block w-100" src="uploaded_img/<?php echo $row['avatar'];   ?>" alt="">
+                    <img class="rounded-circle w-100" src="uploaded_img/<?php echo $row['avatar'];   ?>" alt="">
                     <label for="avatar" class="text-center bg-success text-white p-2 rounded mt-1">Tải ảnh lên</label>
                     <input type="file" accept="image/jpg, image/jpeg, image/png" id="avatar" name="avatar" class="d-none">
                 </div>

@@ -12,39 +12,44 @@ if (!isset($user_id)) {
 
 if (isset($_POST['order'])) {
 
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $number = mysqli_real_escape_string($conn, $_POST['number']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    // $name = mysqli_real_escape_string($conn, $_POST['name']);
+    // $number = mysqli_real_escape_string($conn, $_POST['number']);
+    // $email = mysqli_real_escape_string($conn, $_POST['email']);
+    // $address = mysqli_real_escape_string($conn, $_POST['specific_address']);
     $method = mysqli_real_escape_string($conn, $_POST['method']);
-    $address = mysqli_real_escape_string($conn, $_POST['specific_address']);
     $name_receive = mysqli_real_escape_string($conn, $_POST['name_receive']);
     $number_receive = mysqli_real_escape_string($conn, $_POST['number_receive']);
     $message_card = mysqli_real_escape_string($conn, $_POST['message_card']);
-    $placed_on = date('d-m-Y');
 
     $cart_total = 0;
-    $cart_products[] = '';
-
+    $donhang=array();
     $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($cart_query) > 0) {
         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
-            $cart_products[] = $cart_item['name'] . ' (' . $cart_item['quantity'] . ') ';
+            $donhang=array_merge($donhang,(array(array('pid'=>$cart_item['pid'],'quantity'=>$cart_item['quantity'],'price'=>$cart_item['price']))));
             $sub_total = ($cart_item['price'] * $cart_item['quantity']);
             $cart_total += $sub_total;
         }
     }
+    $_SESSION['chitiet-donhang']=$donhang;
+    // print_r($_SESSION['chitiet-donhang']);
 
-    $total_products = implode(', ', $cart_products);
-
-    $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE name = '$name' AND number = '$number' AND email = '$email' AND method = '$method' AND address = '$address' AND total_products = '$total_products' AND total_price = '$cart_total'") or die('query failed');
+    $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE user_id = '$user_id' AND total_price = '$cart_total'AND method = '$method'AND name_receive = '$name_receive'AND number_receive = '$number_receive' ") or die('query failed');
 
     if ($cart_total == 0) {
         $message[] = 'Giỏ của bạn trống!';
     } elseif (mysqli_num_rows($order_query) > 0) {
         $message[] = 'Đơn đặt hàng đã được đặt!';
     } else {
-        mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on,name_receive,number_receive,message_card) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on','$name_receive','$number_receive','$message_card')") or die('query failed');
-        // mysqli_query($conn, "INSERT INTO `deltail_orders`(id_order, pid, quantity, price) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on','$name_receive','$number_receive','$message_card')") or die('query failed');
+        mysqli_query($conn, "INSERT INTO `orders`(user_id, method, total_price, name_receive,number_receive,message_card) VALUES('$user_id', '$method', '$cart_total','$name_receive','$number_receive','$message_card')") or die('query failed');
+        $max=mysqli_query($conn,"select max(id) from orders");
+	    $row=mysqli_fetch_array($max);
+        foreach ($_SESSION['chitiet-donhang'] as $item) {
+            $capnhat_chitiet_donhang="INSERT INTO detail_orders(id_order, pid, number, price) VALUE ('$row[0]','$item[pid]','$item[quantity]','$item[price]') ";
+            mysqli_query($conn,$capnhat_chitiet_donhang);
+            // unset($_SESSION['chitiet-donhang']);
+        }
+
         // mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
         $message[] = 'Đặt hàng thành công!';
     }
@@ -90,15 +95,15 @@ $row = mysqli_fetch_array($sth);
                 <div class="flex">
                     <div class="inputBox">
                         <span>Tên người đặt:</span>
-                        <input type="text" name="name" value="<?php echo $row['name']?? '' ?>" placeholder="Họ tên người đặt" required>
+                        <input type="text" name="name" readonly value="<?php echo $row['name']?? '' ?>" placeholder="Họ tên người đặt" required>
                     </div>
                     <div class="inputBox">
                         <span>Số điện thoại :</span>
-                        <input type="text" name="number" value="<?php echo $row['phone']?? '' ?>" placeholder="Số điện thọai" required>
+                        <input type="text" name="number" readonly value="<?php echo $row['phone']?? '' ?>" placeholder="Số điện thọai" required>
                     </div>
                     <div class="inputBox">
                         <span>email :</span>
-                        <input type="email" name="email" value="<?php echo  $row['email']?? '' ?>" placeholder="nhập email của bạn" required>
+                        <input type="email" name="email" readonly value="<?php echo  $row['email']?? '' ?>" placeholder="nhập email của bạn" required>
                     </div>
 
                     <!-- <div class="inputBox">
@@ -121,7 +126,7 @@ $row = mysqli_fetch_array($sth);
         </div> -->
                     <div class="inputBox">
                         <span>Địa chỉ giao hàng :</span>
-                        <input type="text" name="specific_address" value="<?php echo $row['address'] ?? ''?>" placeholder="thôn, khóm, số nhà,..." required>
+                        <input type="text" name="specific_address" readonly value="<?php echo $row['address'] ?? ''?>" placeholder="thôn, khóm, số nhà,..." required>
                     </div>
                     <div class="inputBox">
                         <span>phương thức thanh toán :</span>
