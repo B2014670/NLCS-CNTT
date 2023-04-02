@@ -31,10 +31,10 @@ if(isset($message)){
       </div>
 
       <div class="account-box">
-         <p>username : <span><?php echo $_SESSION['admin_name']; ?></span></p>
+         <p>Quản trị viên : <span><?php echo $_SESSION['admin_name']; ?></span></p>
          <p>email : <span><?php echo $_SESSION['admin_email']; ?></span></p>
          <a href="logout.php" class="delete-btn">Đăng xuất</a>
-         <div>new <a href="login.php">đăng nhập</a> | <a href="register.php">đăng kí</a> </div>
+         <div><a href="login.php">đăng nhập</a> mới | <a href="register.php">đăng kí</a> </div>
       </div>
 
    </div>

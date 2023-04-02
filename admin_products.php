@@ -65,29 +65,22 @@ if (isset($_GET['delete'])) {
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
-                           <th scope="col" class="col-md-1">#</th>
-                           <th scope="col" class="col-md-1">chủ đề</th>
+                           <th scope="col" class="col-md-1">#</th>                           
                            <th scope="col" class="col-md-1">loại </th>
-                           <th scope="col" class="col-md-2">tên </th>
-                           <th scope="col" class="col-md-1">giá</th>
-                           <th scope="col" class="col-md-1">giá sale</th>
+                           <th scope="col" class="col-md-1">tên </th>
+                           <th scope="col" class="col-md-1">giá bó</th>
+                           <th scope="col" class="col-md-1">giá cành</th>
+                           <th scope="col" class="col-md-1">giảm %</th>
+                           <th scope="col" class="col-md-1">kho</th>
                            <th scope="col">mô tả</th>
                            <th scope="col" class="col-md-1">ảnh</th>
                            <th scope="col" style="width:100px;">thao tác</th>
                         </tr>
                      </thead>
-                     <!-- <tfoot>
-                     <tr>
-                        <th scope="col">id người dùng</th>
-                        <th scope="col">tên tài khoản</th>
-                        <th scope="col">email </th>
-                        <th scope="col">tin nhắn</th>
-                        <th scope="col">Thao tác</th>
-                     </tr>
-                  </tfoot> -->
+                     
                      <tbody>
                         <?php
-                        $select_products = mysqli_query($conn, "SELECT * FROM products a JOIN topics b ON a.id_topic=b.id_topic JOIN types c ON a.id_type=c.id_type ") or die('query failed');
+                        $select_products = mysqli_query($conn, "SELECT * FROM products a  JOIN types c ON a.id_type=c.id_type ") or die('query failed');
                         if (mysqli_num_rows($select_products) > 0) {
                            while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                         ?>
@@ -96,13 +89,7 @@ if (isset($_GET['delete'])) {
                                     <div>
                                        <span><?php echo $fetch_products['id']; ?></span>
                                     </div>
-                                 </td>
-
-                                 <td>
-                                    <div>
-                                       <span><?php echo $fetch_products['name_topic']??''; ?></span>
-                                    </div>
-                                 </td>
+                                 </td>                                 
 
                                  <td>
                                     <span><?php echo $fetch_products['name_type']??'' ?></span>
@@ -117,7 +104,15 @@ if (isset($_GET['delete'])) {
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_products['sale_price']!=0 ?$fetch_products['sale_price'] :$fetch_products['price']; ?></span>
+                                    <span><?php echo $fetch_products['giacanh']?></span>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_products['sale_price']?></span>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_products['soluongkho']?></span>
                                  </td>
 
                                  <td>
