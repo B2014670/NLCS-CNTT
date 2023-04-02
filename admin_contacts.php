@@ -221,7 +221,6 @@ if (isset($_GET['delete_comment'])) {
 
    
    <script src="js/admin_script.js"></script>
-
    <!-- Bootstrap core JavaScript-->
    <script src="vendor/jquery/jquery.min.js"></script>
    <!-- Page level plugins -->
@@ -230,5 +229,4 @@ if (isset($_GET['delete_comment'])) {
    <!-- Page level custom scripts -->
    <script src="js/demo/datatables-demo.js"></script>
 </body>
-
 </html>

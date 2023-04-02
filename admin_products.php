@@ -16,7 +16,7 @@ if (isset($_GET['delete'])) {
    $fetch_delete_image = mysqli_fetch_assoc($select_delete_image);
    unlink('uploaded_img/' . $fetch_delete_image['image']);
    mysqli_query($conn, "DELETE FROM `products` WHERE id = '$delete_id'") or die('query failed');
-   mysqli_query($conn, "DELETE FROM `cart` WHERE pid = '$delete_id'") or die('query failed');
+   mysqli_query($conn, "DELETE FROM `carts` WHERE pid = '$delete_id'") or die('query failed');
    header('location:admin_products.php');
 }
 

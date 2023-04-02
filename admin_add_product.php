@@ -11,11 +11,13 @@ if (!isset($admin_id)) {
 };
 
 if (isset($_POST['add_product'])) {
-   $topic = mysqli_real_escape_string($conn, $_POST['topic']);
+   
    $type = mysqli_real_escape_string($conn, $_POST['type']);
    $name = mysqli_real_escape_string($conn, $_POST['name']);
    $price = mysqli_real_escape_string($conn, $_POST['price']);
+   $giacanh = mysqli_real_escape_string($conn, $_POST['giacanh']);
    $sale_price = mysqli_real_escape_string($conn, $_POST['sale_price']);
+   $soluongkho = mysqli_real_escape_string($conn, $_POST['soluongkho']);
    $details = mysqli_real_escape_string($conn, $_POST['details']);
    $image = $_FILES['image']['name'];
    $image_size = $_FILES['image']['size'];
@@ -27,7 +29,7 @@ if (isset($_POST['add_product'])) {
    if (mysqli_num_rows($select_product_name) > 0) {
       $message[] = 'tên sản phẩm đã tồn tại!';
    } else {
-      $insert_product = mysqli_query($conn, "INSERT INTO `products`(id_topic, id_type, name, details, price, sale_price, image) VALUES('$topic','$type','$name', '$details', '$price', '$sale_price', '$image')") or die('query failed');
+      $insert_product = mysqli_query($conn, "INSERT INTO `products`( id_type, name, details, price,giacanh, sale_price,soluongkho, image) VALUES('$type','$name', '$details', '$price', '$giacanh', '$sale_price', '$soluongkho','$image')") or die('query failed');
 
       if ($insert_product) {
          if ($image_size > 2000000) {
@@ -68,20 +70,7 @@ if (isset($_POST['add_product'])) {
       <form action="" method="POST" enctype="multipart/form-data">
          <h3>thêm sản phẩm mới</h3>
 
-         <select class="box" name="topic" required >
-            <option value="" selected> Chọn chủ đề </option>
-
-            <?php
-            $select_topics = mysqli_query($conn, "SELECT * FROM topics ") or die('query failed');
-            if (mysqli_num_rows($select_topics) > 0) {
-               while ($fetch_topics = mysqli_fetch_assoc($select_topics)) {
-            ?>
-                  <option value=" <?php echo $fetch_topics['id_topic']; ?> "> <?php echo $fetch_topics['name_topic']; ?> </option>
-            <?php
-               }
-            }
-            ?>
-         </select>
+         
 
          <select class="box" name="type" required>
             <option value="" selected> Chọn loại</option>
@@ -99,8 +88,10 @@ if (isset($_POST['add_product'])) {
 
 
          <input type="text" class="box" required placeholder="nhập tên sản phẩm" name="name">
-         <input type="number" min="0" class="box" required placeholder="nhập giá sản phẩm" name="price">
-         <input type="number" min="0" class="box" placeholder="nhập giá sale" name="sale_price">
+         <input type="number" min="0" class="box" required placeholder="nhập giá bó" name="price">
+         <input type="number" min="0" class="box" placeholder="nhập giá cành" name="giacanh">
+         <input type="number" min="0" max="100" class="box" placeholder="nhập  khuyến mãi %" name="sale_price">
+         <input type="number" min="0" class="box" placeholder="nhập  số lượng nhập hàng" name="soluongkho">
          <textarea name="details" class="box" required placeholder="nhập mô tả sản phẩm" cols="30" rows="10"></textarea>
          <input type="file" accept="image/jpg, image/jpeg, image/png" required class="box" name="image">
          <input type="submit" value="thêm sản phẩm" name="add_product" class="option-btn">
