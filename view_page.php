@@ -15,13 +15,14 @@ if (isset($_POST['add_to_cart'])) {
     };
     $product_id = $_POST['product_id'];
     $product_quantity = $_POST['product_quantity'];
+    $product_unit = $_POST['unit'];
 
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE pid = '$product_id' AND user_id = '$user_id'") or die('query failed');
+    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id' AND unit = '$product_unit'") or die('query failed');
 
     if (mysqli_num_rows($check_cart_numbers) > 0) {
         $message[] = 'Đã thêm vào giỏ hàng';
     } else {
-        mysqli_query($conn, "INSERT INTO `cart`(user_id, pid,  quantity) VALUES('$user_id', '$product_id',  '$product_quantity')") or die('query failed');
+        mysqli_query($conn, "INSERT INTO `carts`(user_id, pid,  quantity, unit) VALUES('$user_id', '$product_id',  '$product_quantity', '$product_unit')") or die('query failed');
         $message[] = 'Thêm vào giỏ hàng thành công';
     }
 }
@@ -60,7 +61,6 @@ if (isset($_POST['add_to_cart'])) {
             $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$pid'") or die('query failed');
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
-
         ?>
                     <div class="card col-lg-10 mx-auto">
                         <!-- <div class=" text-center  mx-auto my-5">
@@ -75,15 +75,47 @@ if (isset($_POST['add_to_cart'])) {
                                     <h2 class="card-title name"><?php echo $fetch_products['name']; ?></h2>
                                     <h2 class="mt">
                                         <?php
-                                        if ($fetch_products['sale_price'] != 0) {
-                                            echo '<span class="text-decoration-line-through" >';
-                                            echo number_format($fetch_products['price'] ?? '', 0, ",", ".") . "đ"  . '</span>';
-                                        }
-
+                                        if (isset($_POST['unit']) && $_POST['unit'] === 'bó') {
+                                            $unit =$_POST['unit'];
+                                            if ($fetch_products['sale_price'] != 0) {
+                                                echo '<div class="row">
+                                                        <p class="price col-md-2 col-sm-3 text-decoration-line-through text-right" >' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</p>
+                                                        <p class="price col text-danger text-left text-left">' . number_format((100 - $fetch_products['sale_price']) * $fetch_products['price'] / 100, 0, ",", ".") . 'đ</p>
+                                                    </div>';
+                                            } else {
+                                                echo '<div class="row">
+                                                        <p class="price col">' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</p>   
+                                                    </div>';
+                                            }
+                                        }else if(isset($_POST['unit']) && $_POST['unit'] === 'cành'){//canh
+                                            $unit =$_POST['unit'];
+                                            echo '<div class="row">
+                                            <p class="price col">' . number_format($fetch_products['giacanh'], 0, ",", ".") . 'đ</p>   
+                                                </div>';
+                                        }                                    
                                         ?>
-                                        <h1><?php echo number_format($fetch_products['sale_price'] != 0 ? $fetch_products['sale_price'] : $fetch_products['price'], 0, ",", ".") . "đ" ?></h1>
+                                        <!-- <h1><?php echo number_format($fetch_products['sale_price'] != 0 ? $fetch_products['sale_price'] : $fetch_products['price'], 0, ",", ".") . "đ" ?></h1> -->
                                     </h2>
+                                    <form method="POST" id="choseunit" >
+                                            <div class="row">
+                                                <div class="col-md-2 col-sm-3">
+                                                    Đơn vị:
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-check">
+                                                        <input type="radio" class="form-check-input" id="radio1" name="unit" value="bó" <?php if (isset($_POST['unit']) && $_POST['unit'] === 'bó') echo 'checked'; ?>>
+                                                        <label class="form-check-label" for="radio1">Bó</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input type="radio" class="form-check-input" id="radio2" name="unit" value="cành" <?php if (isset($_POST['unit']) && $_POST['unit'] === 'cành') echo 'checked'; ?>>
+                                                        <label class="form-check-label" for="radio2">Cành</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     <form action="" method="POST">
+                                        
+                                        <input type="hidden" name="unit" value="<?php echo $unit?>">
                                         <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
 
                                         <div class="row ">
@@ -123,7 +155,7 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="accordion-body mt-3">
                     <?php
 
-                    $sql = "SELECT * FROM comment a JOIN users b ON a.id_user=b.id  WHERE a.pid='$pid'";
+                    $sql = "SELECT * FROM comments a JOIN users b ON a.id_user=b.id  WHERE a.pid='$pid'";
                     $binhluan = mysqli_query($conn, $sql);
                     while ($row = mysqli_fetch_array($binhluan)) {
                     ?>
@@ -198,12 +230,17 @@ if (isset($_POST['add_to_cart'])) {
         </div>
     </section>
 
-
     <?php @include 'modules/same_product.php'; ?>
 
     <?php @include 'modules/footer.php'; ?>
     <script src="js/jQuery.js"></script>
     <script src="js/script.js"></script>
+    <script>
+        $('input[type=radio][name=unit]').change(function() {
+            alert('aaaaaaa')
+            $("form[id=choseunit]").submit();
+        })
+    </script>
 </body>
 
 </html>

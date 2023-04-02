@@ -12,21 +12,22 @@ if (!isset($user_id)) {
 
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
-    mysqli_query($conn, "DELETE FROM `cart` WHERE pid = '$delete_id'") or die('query failed');
+    $delete_unit = $_GET['unit'];
+    mysqli_query($conn, "DELETE FROM `carts` WHERE pid = '$delete_id' AND unit='$delete_unit'") or die('query failed');
     header('location:cart.php');
 }
 
 if (isset($_GET['delete_all'])) {
-    mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+    mysqli_query($conn, "DELETE FROM `carts` WHERE user_id = '$user_id'") or die('query failed');
     header('location:cart.php');
 };
 
 if (isset($_POST['update_quantity'])) {
     $cart_id = $_POST['cart_id'];
     $cart_quantity = $_POST['cart_quantity'];
-    $select_item_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE id_cart = '$cart_id' AND quantity <> '$cart_quantity' ") or die('query failed');
+    $select_item_cart = mysqli_query($conn, "SELECT * FROM `carts` WHERE id_cart = '$cart_id' AND quantity <> '$cart_quantity' ") or die('query failed');
     if (mysqli_num_rows($select_item_cart) > 0) {
-        mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity' WHERE id_cart = '$cart_id'") or die('query failed');
+        mysqli_query($conn, "UPDATE `carts` SET quantity = '$cart_quantity' WHERE id_cart = '$cart_id'") or die('query failed');
         $message[] = 'số lượng giỏ hàng được cập nhật!';
     }
 }
@@ -84,7 +85,7 @@ if (isset($_POST['update_quantity'])) {
                         <tbody class="text-center">
                             <?php
                             $grand_total = 0;
-                            $select_cart = mysqli_query($conn, "SELECT id_cart, user_id, pid, name, quantity, price, sale_price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+                            $select_cart = mysqli_query($conn, "SELECT id_cart, user_id, pid,unit, name, quantity, price, giacanh, sale_price, image  FROM carts JOIN products ON carts.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
                             if (mysqli_num_rows($select_cart) > 0) {
                                 while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                             ?>
@@ -97,10 +98,21 @@ if (isset($_POST['update_quantity'])) {
                                                 <a class=" text-center  text-dark" href="view_page.php?pid=<?php echo $fetch_cart['pid']; ?>"><?php echo $fetch_cart['name']; ?></a>
                                             </div>
                                         </td>
-                                        <td >
-                                            <div class="mt-5"><?php echo number_format($fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'], 0, ",", ".") . "đ" ?></div>
+                                        <td>
+                                            <?php
+                                            if ($fetch_cart['unit'] === 'bó') {
+                                                if ($fetch_cart['sale_price'] != 0) {
+                                                    $price = (100 - $fetch_cart['sale_price']) * $fetch_cart['price'] / 100;
+                                                } else {
+                                                    $price = $fetch_cart['price'];
+                                                }
+                                            } else if ($fetch_cart['unit'] === 'cành') { //canh
+                                                $price = $fetch_cart['giacanh'];
+                                            }
+                                            ?>
+                                            <div class="mt-5"><?php echo number_format($price, 0, ",", ".") . "đ/" . $fetch_cart['unit'] ?></div>
                                         </td>
-                                        <td >
+                                        <td>
                                             <form class="mt-2 p-0" method="POST">
                                                 <input type="hidden" value="<?php echo $fetch_cart['id_cart']; ?>" name="cart_id">
 
@@ -109,18 +121,16 @@ if (isset($_POST['update_quantity'])) {
                                                 <input type="submit" value="Cập nhật" class="option-btn p-2" name="update_quantity">
                                             </form>
                                         </td>
-                                        <td >
+                                        <td>
                                             <div class="mt-5">
                                                 <?php
-                                                $price = $fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'];
                                                 $sub_total = ($price  * $fetch_cart['quantity']);
                                                 echo number_format($sub_total, 0, ",", ".") . "đ";
                                                 ?>
                                             </div>
                                         </td>
                                         <td>
-
-                                            <a href="cart.php?delete=<?php echo $fetch_cart['pid']; ?>" class="fas fa-trash text-light bg-danger p-3 mt-4 rounded" onclick="return confirm('delete this from cart?');"></a>
+                                            <a href="cart.php?delete=<?php echo $fetch_cart['pid'];?>&unit=<?php echo $fetch_cart['unit'];?>" class="fas fa-trash text-light bg-danger p-3 mt-4 rounded" onclick="return confirm('delete this from cart?');"></a>
                                         </td>
 
                                     </tr>

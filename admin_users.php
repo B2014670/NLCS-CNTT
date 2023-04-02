@@ -51,7 +51,7 @@ if (isset($_GET['delete'])) {
          <!-- DataTales Example -->
          <div class="card shadow mb-4">
             <div class="card-header py-3">
-               <h1 class="m-0 font-weight-bold text-primary">DataTables Account</h1>
+               <h1 class="m-0 font-weight-bold text-primary">Danh sách tài khoản</h1>
             </div>
             <div class="card-body">
                <div class="table-responsive">

@@ -13,12 +13,12 @@ if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
     $product_quantity = $_POST['product_quantity'];
 
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE pid = '$product_id' AND user_id = '$user_id'") or die('query failed');
+    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id'") or die('query failed');
 
     if (mysqli_num_rows($check_cart_numbers) > 0) {
         $message[] = 'Đã thêm vào giỏ hàng';
     } else {
-        mysqli_query($conn, "INSERT INTO `cart`(user_id, pid,  quantity) VALUES('$user_id', '$product_id',  '$product_quantity')") or die('query failed');
+        mysqli_query($conn, "INSERT INTO `carts`(user_id, pid,  quantity) VALUES('$user_id', '$product_id',  '$product_quantity')") or die('query failed');
         $message[] = 'Thêm vào giỏ hàng thành công';
     }
 }
@@ -92,13 +92,26 @@ if (isset($_POST['add_to_cart'])) {
                     <form action="" method="POST" class="box">
                         <a href="view_page.php?pid=<?php echo $fetch_products['id']; ?>">
                             <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="" class="image">
-                            <div class="name"><?php echo $fetch_products['name']; ?></div>                                                    
-                            <div class="price"><?php echo number_format($fetch_products['sale_price'] != 0 ? $fetch_products['sale_price'] : $fetch_products['price'], 0, ",", ".") . "đ" ?></div>
+                            <div class="name"><?php echo $fetch_products['name']; ?></div>
+                            <?php
+                            if ($fetch_products['sale_price'] != 0) {
+                                echo'<div class="row">
+                                        <p class="price col  text-decoration-line-through text-right" >' .number_format($fetch_products['price'], 0, ",", ".").'đ</p>
+                                        <p class="price col text-danger text-left text-left">' .number_format((100-$fetch_products['sale_price'])*$fetch_products['price']/100, 0, ",", ".").'đ</p>
+                                    </div>';
+                            } else {
+                                echo'<div class="row">
+                                        <div class="price col">' .number_format($fetch_products['price'], 0, ",", ".").'đ</div>
+                                        
+                                    </div>';
+                            }
+                            ?>
                         </a>
                         <input type="hidden" name="product_quantity" value="1" min="0" class="qty">
                         <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
                         <!-- <input type="submit" value="Thêm vào giỏ hàng" name="add_to_cart" class="btn"> -->
                     </form>
+
             <?php
                 }
             } else {

@@ -26,27 +26,7 @@ if (isset($message)) {
                 <ul class="navbar-nav">
                     <li class="nav-item px-2  ">
                         <a class="nav-link text-uppercase active " href="home.php">Trang chủ</a>
-                    </li>
-
-                    <li class="nav-item px-2  dropdown">
-                        <a class="nav-link text-uppercase active dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Chủ đề</a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown03">
-                            <?php
-                            $select_topics = mysqli_query($conn, "SELECT * FROM `topics`") or die('query failed');
-                            if (mysqli_num_rows($select_topics) > 0) {
-                                while ($fetch_topics = mysqli_fetch_assoc($select_topics)) {
-                            ?>
-                                    
-                                    <li style="width:300px"  class="p-2 m-2 border-bottom"><a class="dropdown-item" href="product.php?id_topic=<?php echo $fetch_topics['id_topic']; ?>"><?php echo $fetch_topics['name_topic']; ?></a></li>
-                            <?php
-                                }
-                            } else {
-                                echo '<p class="empty">Chưa có sản phẩm nào được thêm vào!</p>';
-                            }
-                            ?>
-                        </ul>
-                    </li>
-
+                    </li>                  
 
                     <li class="nav-item px-2  dropdown">
                         <a class="nav-link text-uppercase active dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Loại hoa</a>
@@ -87,15 +67,8 @@ if (isset($message)) {
 
             <div class="nav-btn">
                 <a href="search_page.php"><i class=" fas fa-search px-1"></i></a>
-
-                <!-- <?php
-                        $select_wishlist_count = mysqli_query($conn, "SELECT * FROM `wishlist` WHERE user_id = '$user_id'") or die('query failed');
-                        $wishlist_num_rows = mysqli_num_rows($select_wishlist_count);
-                        ?>
-                    <a href="wishlist.php"><i class=" fas fa-heart px-1"></i><span>(<?php echo $wishlist_num_rows; ?>)</span></a> -->
-
                 <?php
-                $select_cart_count = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+                $select_cart_count = mysqli_query($conn, "SELECT * FROM `carts` WHERE user_id = '$user_id'") or die('query failed');
                 $cart_num_rows = mysqli_num_rows($select_cart_count);
                 ?>
 
@@ -107,15 +80,14 @@ if (isset($message)) {
             <div class="account-box ">
                 <?php
                     if(isset($_SESSION['user_name'])){
-                        echo '<a href="profile.php">Chỉnh sửa thông tin</a> <p>username : <span>' 
+                        echo '<a href="profile.php">Thông tin cá nhân</a> <p>username : <span>' 
                         .$_SESSION['user_name'] .'</span></p> <p>email : <span>' 
                         .$_SESSION['user_email'] .'</span></p> <a href="logout.php" class="delete-btn">đăng xuất</a>';
                     }else{
-                        echo '<p>username : <span> Khách </span></p>';
+                        echo '<p>người dùng : <span> Khách </span></p>';
                         echo '<a href="login.php" class="delete-btn">đăng nhập</a>';
                     }
                 ?>
-                
             </div>
         </div>
     </nav>

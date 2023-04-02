@@ -57,12 +57,12 @@ if (isset($_GET['delete'])) {
 
    <section class="placed-orders">
       <h1 class="title">Đơn hàng</h1>
-      <div class="container">
+      <div class="container-fruit">
 
          <!-- DataTales Example -->
          <div class="card shadow mb-4">
             <div class="card-header py-3">
-               <h1 class="m-0 font-weight-bold text-primary">DataTables Order</h1>
+               <h1 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h1>
             </div>
             <div class="card-body">
                <div class="table-responsive">
@@ -78,15 +78,7 @@ if (isset($_GET['delete'])) {
                            <th scope="col">thao tác</th>
                         </tr>
                      </thead>
-                     <!-- <tfoot>
-                     <tr>
-                        <th scope="col">id người dùng</th>
-                        <th scope="col">tên tài khoản</th>
-                        <th scope="col">email </th>
-                        <th scope="col">tin nhắn</th>
-                        <th scope="col">Thao tác</th>
-                     </tr>
-                  </tfoot> -->
+                     
                      <tbody>
                         <?php
                         $select_orders = mysqli_query($conn,"SELECT placed_on,orders.id AS id, name, address, phone, payment_status FROM orders JOIN users ON orders.user_id=users.id");

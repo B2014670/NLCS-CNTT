@@ -17,7 +17,7 @@ if (isset($_GET['delete'])) {
 }
 if (isset($_GET['delete_comment'])) {
    $delete_id = $_GET['delete_comment'];
-   mysqli_query($conn, "DELETE FROM `comment` WHERE id = '$delete_id'") or die('query failed');
+   mysqli_query($conn, "DELETE FROM `comments` WHERE id = '$delete_id'") or die('query failed');
    header('location:admin_contacts.php');
 }
 ?>
@@ -53,7 +53,7 @@ if (isset($_GET['delete_comment'])) {
          <!-- DataTales Example -->
          <div class="card shadow mb-4">
             <div class="card-header py-3">
-               <h1 class="m-0 font-weight-bold text-primary">DataTables Comment</h1>
+               <h1 class="m-0 font-weight-bold text-primary">Danh sách bình luận đánh giá</h1>
             </div>
             <div class="card-body">
                <div class="table-responsive">
@@ -69,18 +69,10 @@ if (isset($_GET['delete_comment'])) {
                            <th scope="col">Thao tác</th>
                         </tr>
                      </thead>
-                     <!-- <tfoot>
-                     <tr>
-                        <th scope="col">id người dùng</th>
-                        <th scope="col">tên tài khoản</th>
-                        <th scope="col">email </th>
-                        <th scope="col">tin nhắn</th>
-                        <th scope="col">Thao tác</th>
-                     </tr>
-                  </tfoot> -->
+                     
                      <tbody>
                         <?php
-                        $select_comment = mysqli_query($conn, "SELECT a.id, b.name, c.name AS namep, a.content, a.vote, a.time  FROM comment a JOIN users b ON a.id_user=b.id JOIN products c ON a.pid=c.id") or die('query failed');
+                        $select_comment = mysqli_query($conn, "SELECT a.id, b.name, c.name AS namep, a.content, a.vote, a.time  FROM comments a JOIN users b ON a.id_user=b.id JOIN products c ON a.pid=c.id") or die('query failed');
                         if (mysqli_num_rows($select_comment) > 0) {
                            while ($fetch_comment = mysqli_fetch_assoc($select_comment)) {
                         ?>
@@ -135,11 +127,11 @@ if (isset($_GET['delete_comment'])) {
       </div>
    </section>
 
-   <section class="messages">
+   <!-- <section class="messages">
       <h1 class="title">Góp ý</h1>
       <div class="container">
 
-         <!-- DataTales Example -->
+         
          <div class="card shadow mb-4">
             <div class="card-header py-3">
                <h1 class="m-0 font-weight-bold text-primary">DataTables Message</h1>
@@ -157,15 +149,7 @@ if (isset($_GET['delete_comment'])) {
                            <th scope="col">Thao tác</th>
                         </tr>
                      </thead>
-                     <!-- <tfoot>
-                     <tr>
-                        <th scope="col">id người dùng</th>
-                        <th scope="col">tên tài khoản</th>
-                        <th scope="col">email </th>
-                        <th scope="col">tin nhắn</th>
-                        <th scope="col">Thao tác</th>
-                     </tr>
-                  </tfoot> -->
+                    
                      <tbody>
                         <?php
                         $select_message = mysqli_query($conn, "SELECT * FROM `message`") or die('query failed');
@@ -217,7 +201,7 @@ if (isset($_GET['delete_comment'])) {
          </div>
 
       </div>
-   </section>
+   </section> -->
 
    
    <script src="js/admin_script.js"></script>

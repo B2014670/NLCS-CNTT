@@ -56,7 +56,7 @@ if (isset($_GET['delete'])) {
          <!-- DataTales Example -->
          <div class="card shadow mb-4">
             <div class="card-header py-3 row">
-               <h1 class="col m-0 font-weight-bold text-primary">DataTables Product</h1>
+               <h1 class="col m-0 font-weight-bold text-primary">Danh sách sản phẩm</h1>
                <a href="admin_add_product.php" class="col-lg-1 btn btn-primary ">
                   <i class="fa fa-plus"></i> Thêm sản phẩm</a>
             </div>
