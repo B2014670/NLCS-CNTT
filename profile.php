@@ -8,34 +8,6 @@ $user_id = $_SESSION['user_id'];
 if (!isset($user_id)) {
     header('location:login.php');
 };
-// if (isset($_POST['update_product'])) {
-
-//     $update_p_id = $_POST['update_p_id'];
-//     $name = mysqli_real_escape_string($conn, $_POST['name']);
-//     $price = mysqli_real_escape_string($conn, $_POST['price']);
-//     $details = mysqli_real_escape_string($conn, $_POST['details']);
-
-//     mysqli_query($conn, "UPDATE `products` SET name = '$name', details = '$details', price = '$price' WHERE id = '$update_p_id'") or die('query failed');
-
-//     $image = $_FILES['image']['name'];
-//     $image_size = $_FILES['image']['size'];
-//     $image_tmp_name = $_FILES['image']['tmp_name'];
-//     $image_folter = 'uploaded_img/' . $image;
-//     $old_image = $_POST['update_p_image'];
-//     $image_new = rand(1, 10000) . time() . $_FILES['image']['name'];
-//     if (!empty($image)) {
-//         if ($image_size > 2000000) {
-//             $message[] = 'image file size is too large!';
-//         } else {
-//             mysqli_query($conn, "UPDATE `products` SET image = '$image' WHERE id = '$update_p_id'") or die('query failed');
-//             move_uploaded_file($image_tmp_name, $image_folter);
-//             unlink('uploaded_img/' . $old_image);
-//             $message[] = 'image updated successfully!';
-//         }
-//     }
-
-//     $message[] = 'product updated successfully!';
-// }
 
 if (isset($_POST['capnhatthongtin'])) {
     $hoten = $_POST['hoten'] ?? '';
@@ -52,16 +24,15 @@ if (isset($_POST['capnhatthongtin'])) {
         $sql_taikhoan = mysqli_query($conn, $sql2);
         $row = mysqli_fetch_array($sql_taikhoan);
 
-        if (!empty($row['avatar']) && file_exists('uploaded_img/' . $row['avatar']) && $row['avatar']!='avtDefault.png') {
+        if (!empty($row['avatar']) && file_exists('uploaded_img/' . $row['avatar']) && $row['avatar'] != 'avtDefault.png') {
             unlink('uploaded_img/' . $row['avatar']);
         }
         $sql = "UPDATE users SET name='$hoten', email='$email',phone='$phone',address='$diachi',avatar='$avatar' WHERE id='$user_id'";
-        
     } else {
 
         $sql = "UPDATE users SET name='$hoten', email='$email',phone='$phone',address='$diachi' WHERE id='$user_id'";
     }
-    echo "<script>alert('thanhcong');</script>";
+    echo "<script>alert('cập nhật thành công');</script>";
     mysqli_query($conn, $sql);
 
     // Xóa session hiện tại
@@ -71,9 +42,9 @@ if (isset($_POST['capnhatthongtin'])) {
     session_start();
 
     // Cập nhật biến session mới với thông tin tài khoản mới của người dùng
-        $_SESSION['user_name'] = $hoten;
-        $_SESSION['user_email'] = $email;
-        $_SESSION['user_id'] = $user_id;
+    $_SESSION['user_name'] = $hoten;
+    $_SESSION['user_email'] = $email;
+    $_SESSION['user_id'] = $user_id;
 }
 $sql = "SELECT * FROM users where id='$user_id'";
 $sth = mysqli_query($conn, "SELECT * FROM users where id='$user_id'");
@@ -95,6 +66,16 @@ $row = mysqli_fetch_array($sth);
     <link rel="stylesheet" href="css/style.css">
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <style>
+        .taikhoan-nav li {
+            list-style: none;
+            padding: 12px;
+        }
+
+        .taikhoan-nav li:hover {
+            background-color: pink;
+        }
+    </style>
 </head>
 
 <body>
@@ -102,49 +83,26 @@ $row = mysqli_fetch_array($sth);
     @include 'modules/header.php';
 
     ?>
-    <div class="container my-2 profile" style="padding-top: 100px;">
-        <h3 class="text-center text-uppercase">Thông tin cá nhân </h3>
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="row">
-                <!-- <div class="col-4 d-flex justify-content-center align-items-center"> -->
-                <div class="col-4 text-center">
-                    <img class="rounded-circle w-100" src="uploaded_img/<?php echo $row['avatar'];   ?>" alt="">
-                    <label for="avatar" class="text-center bg-success text-white p-2 rounded mt-1">Tải ảnh lên</label>
-                    <input type="file" accept="image/jpg, image/jpeg, image/png" id="avatar" name="avatar" class="d-none">
-                </div>
+    <div class="container mt-3" style="padding-top: 100px;">
+        <ul class="taikhoan-nav navbar navbar-expand-lg navbar-light bg-light p-0 mx-auto">
+            <li class="col text-center"><a class="text-dark" href="profile.php?query=taikhoan">TÀI KHOẢN</a></li>
+            <li class="col text-center"><a class="text-dark" href="profile.php?query=tatca">TẤT CẢ</a></li>
+            <li class="col text-center"><a class="text-dark" href="profile.php?query=choxacnhan">CHỜ XÁC NHẬN</a></li>            
+            <li class="col text-center"><a class="text-dark" href="profile.php?query=hoanthanh">LỊCH SỬ MUA HÀNG</a></li>
+        </ul>
+    </div>
+    <?php
+    if ($_GET['query'] == 'taikhoan')
+        @include 'quanlytaikhoan/thongtin.php';
+    if ($_GET['query'] == 'choxacnhan')
+        @include 'quanlytaikhoan/choxacnhan.php';
+    if ($_GET['query'] == 'hoanthanh')
+        @include 'quanlytaikhoan/hoanthanh.php';
+    if ($_GET['query'] == 'tatca')
+        @include 'quanlytaikhoan/tatca.php'
+    ?>
+    
 
-                <div class="col-8 box">
-
-                    <div class="form-group">
-                        <label for="">Họ và tên</label>
-                        <input type="text" class="form-control" value="<?php echo $row['name'] ?>" name="hoten" id="">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="text" class="form-control" value="<?php echo  $row['email'] ?>" name="email" id="">
-                    </div>
-                    <!-- <div class="form-group">
-                        <label for="">Mật khẩu</label>
-                        <div class="input-group border">
-                            <input id="password-input-matkhau" value="<?php echo $row['password'] ?>" name='matkhau' type="password" class="form-control border-0" placeholder="Nhập mật khẩu của bạn">
-                            <i onclick="ShowPassword(document.querySelector('#password-input-matkhau'))" class="fa-sharp fa-solid fa-eye border-0 bg-white px-2 my-auto"></i>
-                        </div>
-                    </div> -->
-                    <div class="form-group">
-                        <label for="">Số điện thoại</label>
-                        <input type="text" class="form-control" value="<?php echo $row['phone'] ?>" placeholder="chưa có số điện thoại" name="phone" id="">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Địa chỉ nhận hàng</label>
-                        <input type="text" class="form-control" value="<?php echo $row['address'] ?>" placeholder="chưa có địa chỉ" name="diachi" id="">
-                    </div>
-                    <div class="form-group mt-2">
-                        <button class="btn w-100  bg-success text-white" name="capnhatthongtin" type="submit">Cập nhật</button>
-                    </div>
-        </form>
-    </div>
-    </div>
-    </div>
     <script src="js/jQuery.js"></script>
     <script src="js/script.js"></script>
 </body>

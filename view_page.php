@@ -15,9 +15,9 @@ if (isset($_POST['add_to_cart'])) {
     };
     $product_id = $_POST['product_id'];
     $product_quantity = $_POST['product_quantity'];
-    $product_unit = $_POST['unit'];
+    $product_unit = isset($_POST['unit'])?$_POST['unit']:'bó';
 
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id' AND unit = '$product_unit'") or die('query failed');
+    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id' ") or die('query failed');
 
     if (mysqli_num_rows($check_cart_numbers) > 0) {
         $message[] = 'Đã thêm vào giỏ hàng';

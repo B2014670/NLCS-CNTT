@@ -13,12 +13,12 @@ if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
     $product_quantity = $_POST['product_quantity'];
 
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE pid = '$product_id' AND user_id = '$user_id'") or die('query failed');
+    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id'") or die('query failed');
 
     if (mysqli_num_rows($check_cart_numbers) > 0) {
         $message[] = 'Đã thêm vào giỏ hàng';
     } else {
-        mysqli_query($conn, "INSERT INTO `cart`(user_id, pid,  quantity) VALUES('$user_id', '$product_id',  '$product_quantity')") or die('query failed');
+        mysqli_query($conn, "INSERT INTO `carts`(user_id, pid, quantity) VALUES('$user_id', '$product_id',  '$product_quantity')") or die('query failed');
         $message[] = 'Thêm vào giỏ hàng thành công';
     }
 }

@@ -23,11 +23,16 @@ if (isset($_POST['order'])) {
 
     $cart_total = 0;
     $donhang = array();
-    $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+    $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity,unit, price, giacanh, sale_price, image  FROM carts JOIN products ON carts.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($cart_query) > 0) {
         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
-            $donhang = array_merge($donhang, (array(array('pid' => $cart_item['pid'], 'quantity' => $cart_item['quantity'], 'price' => $cart_item['price']))));
-            $sub_total = ($cart_item['price'] * $cart_item['quantity']);
+            if ($cart_item['unit'] === 'bó') {
+                $cart_price = $cart_item['sale_price'] != 0 ? (100 - $cart_item['sale_price']) * $cart_item['price'] / 100 : $cart_item['price'];
+            } else if ($cart_item['unit'] === 'cành') { //canh
+                $cart_price = $cart_item['giacanh'];
+            }
+            $donhang = array_merge($donhang, (array(array('pid' => $cart_item['pid'], 'quantity' => $cart_item['quantity'], 'unit' => $cart_item['unit'], 'price' => $cart_price))));
+            $sub_total = ($cart_price* $cart_item['quantity']);
             $cart_total += $sub_total;
         }
     }
@@ -45,7 +50,7 @@ if (isset($_POST['order'])) {
         $max = mysqli_query($conn, "select max(id) from orders");
         $row = mysqli_fetch_array($max);
         foreach ($_SESSION['chitiet-donhang'] as $item) {
-            $capnhat_chitiet_donhang = "INSERT INTO detail_orders(id_order, pid, number, price) VALUE ('$row[0]','$item[pid]','$item[quantity]','$item[price]') ";
+            $capnhat_chitiet_donhang = "INSERT INTO detail_orders(id_order, pid, quantity, unit, price) VALUE ('$row[0]','$item[pid]','$item[quantity]','$item[unit]','$item[price]') ";
             mysqli_query($conn, $capnhat_chitiet_donhang);
             // unset($_SESSION['chitiet-donhang']);
         }

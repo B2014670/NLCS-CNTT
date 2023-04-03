@@ -56,7 +56,7 @@ if (isset($_GET['delete'])) {
          <?php
          if (isset($_GET['detail_order'])) {
             $id = $_GET['detail_order'];
-            $select_orders = mysqli_query($conn, "SELECT * FROM `orders` WHERE id = '$id'") or die('query failed');
+            $select_orders = mysqli_query($conn, "SELECT * FROM `orders` JOIN users ON orders.user_id=users.id WHERE orders.id = '$id'") or die('query failed');
             if (mysqli_num_rows($select_orders) > 0) {
                while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
          ?>
@@ -64,10 +64,36 @@ if (isset($_GET['delete'])) {
                      <p> mã đơn : <span><?php echo $fetch_orders['id']; ?></span> </p>
                      <p> ngày đặt : <span><?php echo $fetch_orders['placed_on']; ?></span> </p>
                      <p> tên khách hàng : <span><?php echo $fetch_orders['name']; ?></span> </p>
-                     <p> số điện thoại: <span><?php echo $fetch_orders['number']; ?></span> </p>
+                     <p> số điện thoại: <span><?php echo $fetch_orders['phone']; ?></span> </p>
                      <p> email : <span><?php echo $fetch_orders['email']; ?></span> </p>
                      <p> đại chỉ : <span><?php echo $fetch_orders['address']; ?></span> </p>
-                     <p> các sản phẩm : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
+                     <p> các sản phẩm :  
+                     <table class="table">
+                        <tbody>
+                            <?php $select_p_order = mysqli_query($conn, "SELECT image,name,detail_orders.price AS price,quantity,unit  FROM `orders` join detail_orders on orders.id=detail_orders.id_order join products on detail_orders.pid=products.id WHERE id_order='$id'") or die('query failed');
+                            if (mysqli_num_rows($select_p_order) > 0) {
+                                while ($fetch_p_order = mysqli_fetch_array($select_p_order)) {
+                            ?>
+                                    <tr>
+                                        <td class="mt-3">
+                                            <div class="text-center "><img src="uploaded_img/<?php echo $fetch_p_order['image']; ?>" alt="" class="img-fruit" height="80px"> </div>
+                                        </td>
+                                        <td class="mt-3">
+                                            <div class="">
+                                                <div class=""><?php echo $fetch_p_order['name']; ?></div>
+                                                <div class=""><?php echo number_format($fetch_p_order['price'], 0, ",", ".") . "đ" ?></div>
+                                                <div class=""><?php echo "x" . $fetch_p_order['quantity']. ' ' . $fetch_p_order['unit'] ?></div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                            <?php
+                                }
+                            } ?>
+                        </tbody>
+                    </table>
+                     </p>
+
                      <p> tổng tiền : <span><?php echo $fetch_orders['total_price']; ?>đ</span> </p>
                      <p> phương thức thanh toán : <span><?php echo $fetch_orders['method']; ?></span> </p>
                      <form action="" method="post">

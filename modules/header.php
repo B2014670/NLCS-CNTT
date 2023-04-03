@@ -54,14 +54,14 @@ if (isset($message)) {
                         <a class="nav-link text-uppercase active" href="contact.php">Liên hệ</a>
                     </li>
 
-                    <li class="nav-item px-2  dropdown">
+                    <!-- <li class="nav-item px-2  dropdown">
                         <a class="nav-link text-uppercase active dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Thêm</a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown03">
                             <li><a class="dropdown-item" href="register.php">Đăng ký</a></li>
-                            <!-- <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li> -->
+                            <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
                             <li><a class="dropdown-item" href="orders.php">Đơn hàng</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 
@@ -80,7 +80,7 @@ if (isset($message)) {
             <div class="account-box ">
                 <?php
                     if(isset($_SESSION['user_name'])){
-                        echo '<a href="profile.php">Thông tin cá nhân</a> <p>username : <span>' 
+                        echo '<a href="profile.php?query=taikhoan">Thông tin cá nhân</a> <p>username : <span>' 
                         .$_SESSION['user_name'] .'</span></p> <p>email : <span>' 
                         .$_SESSION['user_email'] .'</span></p> <a href="logout.php" class="delete-btn">đăng xuất</a>';
                     }else{
