@@ -75,6 +75,9 @@ if (isset($_POST['add_to_cart'])) {
                                     <h2 class="card-title name"><?php echo $fetch_products['name']; ?></h2>
                                     <h2 class="mt">
                                         <?php
+                                        if (!isset($_POST['unit'])){
+                                            $_POST['unit']='bó';
+                                        } 
                                         if (isset($_POST['unit']) && $_POST['unit'] === 'bó') {
                                             $unit =$_POST['unit'];
                                             if ($fetch_products['sale_price'] != 0) {
@@ -92,7 +95,7 @@ if (isset($_POST['add_to_cart'])) {
                                             echo '<div class="row">
                                             <p class="price col">' . number_format($fetch_products['giacanh'], 0, ",", ".") . 'đ</p>   
                                                 </div>';
-                                        }                                    
+                                        }                                
                                         ?>
                                         <!-- <h1><?php echo number_format($fetch_products['sale_price'] != 0 ? $fetch_products['sale_price'] : $fetch_products['price'], 0, ",", ".") . "đ" ?></h1> -->
                                     </h2>
@@ -103,7 +106,7 @@ if (isset($_POST['add_to_cart'])) {
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-check">
-                                                        <input type="radio" class="form-check-input" id="radio1" name="unit" value="bó" <?php if (isset($_POST['unit']) && $_POST['unit'] === 'bó') echo 'checked'; ?>>
+                                                        <input type="radio" class="form-check-input" id="radio1" name="unit" value="bó" <?php if (!isset($_POST['unit']) || $_POST['unit'] === 'bó') echo 'checked'; ?>>
                                                         <label class="form-check-label" for="radio1">Bó</label>
                                                     </div>
                                                     <div class="form-check">
@@ -236,8 +239,8 @@ if (isset($_POST['add_to_cart'])) {
     <script src="js/jQuery.js"></script>
     <script src="js/script.js"></script>
     <script>
+        // $("form[id=choseunit]").submit();
         $('input[type=radio][name=unit]').change(function() {
-            alert('aaaaaaa')
             $("form[id=choseunit]").submit();
         })
     </script>

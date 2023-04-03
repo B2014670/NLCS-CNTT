@@ -22,16 +22,16 @@ if (isset($_POST['order'])) {
     $message_card = mysqli_real_escape_string($conn, $_POST['message_card']);
 
     $cart_total = 0;
-    $donhang=array();
+    $donhang = array();
     $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($cart_query) > 0) {
         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
-            $donhang=array_merge($donhang,(array(array('pid'=>$cart_item['pid'],'quantity'=>$cart_item['quantity'],'price'=>$cart_item['price']))));
+            $donhang = array_merge($donhang, (array(array('pid' => $cart_item['pid'], 'quantity' => $cart_item['quantity'], 'price' => $cart_item['price']))));
             $sub_total = ($cart_item['price'] * $cart_item['quantity']);
             $cart_total += $sub_total;
         }
     }
-    $_SESSION['chitiet-donhang']=$donhang;
+    $_SESSION['chitiet-donhang'] = $donhang;
     // print_r($_SESSION['chitiet-donhang']);
 
     $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE user_id = '$user_id' AND total_price = '$cart_total'AND method = '$method'AND name_receive = '$name_receive'AND number_receive = '$number_receive' ") or die('query failed');
@@ -42,11 +42,11 @@ if (isset($_POST['order'])) {
         $message[] = 'Đơn đặt hàng đã được đặt!';
     } else {
         mysqli_query($conn, "INSERT INTO `orders`(user_id, method, total_price, name_receive,number_receive,message_card) VALUES('$user_id', '$method', '$cart_total','$name_receive','$number_receive','$message_card')") or die('query failed');
-        $max=mysqli_query($conn,"select max(id) from orders");
-	    $row=mysqli_fetch_array($max);
+        $max = mysqli_query($conn, "select max(id) from orders");
+        $row = mysqli_fetch_array($max);
         foreach ($_SESSION['chitiet-donhang'] as $item) {
-            $capnhat_chitiet_donhang="INSERT INTO detail_orders(id_order, pid, number, price) VALUE ('$row[0]','$item[pid]','$item[quantity]','$item[price]') ";
-            mysqli_query($conn,$capnhat_chitiet_donhang);
+            $capnhat_chitiet_donhang = "INSERT INTO detail_orders(id_order, pid, number, price) VALUE ('$row[0]','$item[pid]','$item[quantity]','$item[price]') ";
+            mysqli_query($conn, $capnhat_chitiet_donhang);
             // unset($_SESSION['chitiet-donhang']);
         }
 
@@ -95,15 +95,15 @@ $row = mysqli_fetch_array($sth);
                 <div class="flex">
                     <div class="inputBox">
                         <span>Tên người đặt:</span>
-                        <input type="text" name="name" readonly value="<?php echo $row['name']?? '' ?>" placeholder="Họ tên người đặt" required>
+                        <input type="text" name="name" readonly value="<?php echo $row['name'] ?? '' ?>" placeholder="Họ tên người đặt" required>
                     </div>
                     <div class="inputBox">
                         <span>Số điện thoại :</span>
-                        <input type="text" name="number" readonly value="<?php echo $row['phone']?? '' ?>" placeholder="Số điện thọai" required>
+                        <input type="text" name="number" readonly value="<?php echo $row['phone'] ?? '' ?>" placeholder="Số điện thọai" required>
                     </div>
                     <div class="inputBox">
                         <span>email :</span>
-                        <input type="email" name="email" readonly value="<?php echo  $row['email']?? '' ?>" placeholder="nhập email của bạn" required>
+                        <input type="email" name="email" readonly value="<?php echo  $row['email'] ?? '' ?>" placeholder="nhập email của bạn" required>
                     </div>
 
                     <!-- <div class="inputBox">
@@ -126,18 +126,18 @@ $row = mysqli_fetch_array($sth);
         </div> -->
                     <div class="inputBox">
                         <span>Địa chỉ giao hàng :</span>
-                        <input type="text" name="specific_address" readonly value="<?php echo $row['address'] ?? ''?>" placeholder="thôn, khóm, số nhà,..." required>
+                        <input type="text" name="specific_address" readonly value="<?php echo $row['address'] ?? '' ?>" placeholder="thôn, khóm, số nhà,..." required>
                     </div>
                     <div class="inputBox">
                         <span>phương thức thanh toán :</span>
-                        <select name="method" class="pay">
+                        <select name="method" id="pay">
                             <option value="thanh toán khi giao hàng" selected="selected">thanh toán khi giao hàng (COD)</option>
                             <option value="credit card">
                                 chuyển khoản
                             </option>
                         </select>
                     </div>
-                    <div id="a">
+                    <div id="banking">
                         <p>Thông tin tài khoản thụ hưởng của Flower shop. Sau khi chuyển khoản, xin vui lòng thông báo cho chúng tôi qua số điên thoại 1234556 để được phục vụ nhanh nhất.</p>
                         <p>Ngân hàng: <b>Agribank</b></p>
                         <p>Số tài khoản: <b>123456789</b></p>
@@ -183,16 +183,21 @@ $row = mysqli_fetch_array($sth);
 
                     <?php
                     $grand_total = 0;
-                    $select_cart = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, sale_price, image  FROM cart JOIN products ON cart.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+                    $select_cart = mysqli_query($conn, "SELECT user_id, pid, name, quantity, price, giacanh, unit, sale_price, image  FROM carts JOIN products ON carts.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
                     if (mysqli_num_rows($select_cart) > 0) {
                         while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                            $price = $fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'];
-                            $total_price = ($price  * $fetch_cart['quantity']);                           
+
+                            if ($fetch_cart['unit'] === 'bó') {
+                                $price = $fetch_cart['sale_price'] != 0 ? (100 - $fetch_cart['sale_price']) * $fetch_cart['price'] / 100 : $fetch_cart['price'];
+                            } else if ($fetch_cart['unit'] === 'cành') { //canh
+                                $price = $fetch_cart['giacanh'];
+                            }
+                            $total_price = ($price  * $fetch_cart['quantity']);
                             $grand_total += $total_price;
                     ?>
                             <tr>
                                 <td><?php echo $fetch_cart['name'] ?></td>
-                                <td><?php echo number_format($fetch_cart['sale_price'] != 0 ? $fetch_cart['sale_price'] : $fetch_cart['price'], 0, ",", ".") . "đ" . ' x ' . $fetch_cart['quantity']  ?></td>
+                                <td><?php echo number_format($price, 0, ",", ".") . "đ" . ' x ' . $fetch_cart['quantity'] .$fetch_cart['unit']  ?></td>
                             </tr>
                     <?php
                         }
@@ -262,19 +267,19 @@ $row = mysqli_fetch_array($sth);
             };
         }
     </script> -->
+
     <script src="js/jQuery.js"></script>
     <script src="js/script.js"></script>
     <script>
-        $(function() {
-            $('#a').hide();
-            $('.pay').on('change', function() {
-                if ($('.pay').val() == 'credit card')
-                    $('#a').show();
-                else
-                    $('#a').hide();
-            });
+        $("#banking").hide();
+        $('#pay').change(function() {
+            if ($('#pay').val() == 'credit card')
+                $("#banking").show();
+            else
+                $("#banking").hide();
         });
     </script>
+
 </body>
 
 </html>

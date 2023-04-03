@@ -101,11 +101,8 @@ if (isset($_POST['update_quantity'])) {
                                         <td>
                                             <?php
                                             if ($fetch_cart['unit'] === 'bó') {
-                                                if ($fetch_cart['sale_price'] != 0) {
-                                                    $price = (100 - $fetch_cart['sale_price']) * $fetch_cart['price'] / 100;
-                                                } else {
-                                                    $price = $fetch_cart['price'];
-                                                }
+                                                $price = $fetch_cart['sale_price'] != 0 ? (100 - $fetch_cart['sale_price']) * $fetch_cart['price'] / 100 : $fetch_cart['price'];
+                                                
                                             } else if ($fetch_cart['unit'] === 'cành') { //canh
                                                 $price = $fetch_cart['giacanh'];
                                             }

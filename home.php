@@ -95,13 +95,13 @@ if (isset($_POST['add_to_cart'])) {
                             <div class="name"><?php echo $fetch_products['name']; ?></div>
                             <?php
                             if ($fetch_products['sale_price'] != 0) {
-                                echo'<div class="row">
-                                        <p class="price col  text-decoration-line-through text-right" >' .number_format($fetch_products['price'], 0, ",", ".").'đ</p>
-                                        <p class="price col text-danger text-left text-left">' .number_format((100-$fetch_products['sale_price'])*$fetch_products['price']/100, 0, ",", ".").'đ</p>
+                                echo '<div class="row">
+                                        <p class="price col  text-decoration-line-through text-right" >' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</p>
+                                        <p class="price col text-danger text-left text-left">' . number_format((100 - $fetch_products['sale_price']) * $fetch_products['price'] / 100, 0, ",", ".") . 'đ</p>
                                     </div>';
                             } else {
-                                echo'<div class="row">
-                                        <div class="price col">' .number_format($fetch_products['price'], 0, ",", ".").'đ</div>
+                                echo '<div class="row">
+                                        <div class="price col">' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</div>
                                         
                                     </div>';
                             }
@@ -136,11 +136,13 @@ if (isset($_POST['add_to_cart'])) {
         </div>
 
     </section>
+    
 
 
     <?php @include 'modules/footer.php'; ?>
 </body>
 <script src="js/jQuery.js"></script>
 <script src="js/script.js"></script>
+
 
 </html>
