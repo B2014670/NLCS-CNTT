@@ -8,7 +8,7 @@ if (!isset($user_id)) {
     // header('location:login.php');
 }
 
-if (isset($_POST['add_to_cart'])) {
+if (isset($_POST['add_to_cart']) && isset($_SESSION['user_id'])) {
 
     $product_id = $_POST['product_id'];
     $product_quantity = $_POST['product_quantity'];

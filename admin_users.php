@@ -93,9 +93,9 @@ if (isset($_GET['delete'])) {
                                                             echo 'var(--orange)';
                                                          }; ?>"><?php echo $fetch_users['user_type']; ?></span>
                                  </td>
-
-                                 <td>
-                                    <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('delete this user?');" class="delete-btn btn-lg mt-0"> Xóa</a>
+                                 
+                                 <td>                                    
+                                    <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>"  onclick="return confirm('bạn chắc chắn muốn xóa tài khoản này?');" class="delete-btn btn-lg mt-0 <?php if ($fetch_users['user_type'] == 'admin') { echo 'disabled';  }; ?>"> Xóa</a>
                                  </td>
 
                               </tr>

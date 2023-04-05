@@ -108,7 +108,7 @@ if (isset($_GET['delete_comment'])) {
                                  </td>
 
                                  <td>
-                                    <a href="admin_contacts.php?delete_comment=<?php echo $fetch_comment['id']; ?>" onclick="return confirm('delete this message?');" class="delete-btn btn-lg mt-0">xóa</a>
+                                    <a href="admin_contacts.php?delete_comment=<?php echo $fetch_comment['id']; ?>" onclick="return confirm('bạn chắc chắn muốn xóa bình luận này?');" class="delete-btn btn-lg mt-0">xóa</a>
                                  </td>
 
                               </tr>

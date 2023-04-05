@@ -9,22 +9,23 @@ $user_id = $_SESSION['user_id'];
 if (!isset($user_id)) {
     // header('location:login.php');
 };
-if (isset($_POST['add_to_cart'])) {
+if (isset($_POST['add_to_cart']) ) {
     if (!isset($user_id)) {
         header('location:login.php');
-    };
-    $product_id = $_POST['product_id'];
-    $product_quantity = $_POST['product_quantity'];
-    $product_unit = isset($_POST['unit'])?$_POST['unit']:'bó';
-
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id' ") or die('query failed');
-
-    if (mysqli_num_rows($check_cart_numbers) > 0) {
-        $message[] = 'Đã thêm vào giỏ hàng';
-    } else {
-        mysqli_query($conn, "INSERT INTO `carts`(user_id, pid,  quantity, unit) VALUES('$user_id', '$product_id',  '$product_quantity', '$product_unit')") or die('query failed');
-        $message[] = 'Thêm vào giỏ hàng thành công';
-    }
+    }else{
+        $product_id = $_POST['product_id'];
+        $product_quantity = $_POST['product_quantity'];
+        $product_unit = isset($_POST['unit'])?$_POST['unit']:'bó';
+    
+        $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id' ") or die('query failed');
+    
+        if (mysqli_num_rows($check_cart_numbers) > 0) {
+            $message[] = 'Đã thêm vào giỏ hàng';
+        } else {
+            mysqli_query($conn, "INSERT INTO `carts`(user_id, pid,  quantity, unit) VALUES('$user_id', '$product_id',  '$product_quantity', '$product_unit')") or die('query failed');
+            $message[] = 'Thêm vào giỏ hàng thành công';
+        }
+    }    
 }
 
 ?>

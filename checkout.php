@@ -23,7 +23,7 @@ if (isset($_POST['order'])) {
 
     $cart_total = 0;
     $donhang = array();
-    $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity,unit, price, giacanh, sale_price, image  FROM carts JOIN products ON carts.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
+    $cart_query = mysqli_query($conn, "SELECT user_id, pid, name, quantity, unit, price, giacanh, sale_price, image  FROM carts JOIN products ON carts.pid= products.id  WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($cart_query) > 0) {
         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
             if ($cart_item['unit'] === 'bó') {
@@ -32,7 +32,7 @@ if (isset($_POST['order'])) {
                 $cart_price = $cart_item['giacanh'];
             }
             $donhang = array_merge($donhang, (array(array('pid' => $cart_item['pid'], 'quantity' => $cart_item['quantity'], 'unit' => $cart_item['unit'], 'price' => $cart_price))));
-            $sub_total = ($cart_price* $cart_item['quantity']);
+            $sub_total = ($cart_price * $cart_item['quantity']);
             $cart_total += $sub_total;
         }
     }
@@ -46,17 +46,33 @@ if (isset($_POST['order'])) {
     } elseif (mysqli_num_rows($order_query) > 0) {
         $message[] = 'Đơn đặt hàng đã được đặt!';
     } else {
-        mysqli_query($conn, "INSERT INTO `orders`(user_id, method, total_price, name_receive,number_receive,message_card) VALUES('$user_id', '$method', '$cart_total','$name_receive','$number_receive','$message_card')") or die('query failed');
-        $max = mysqli_query($conn, "select max(id) from orders");
-        $row = mysqli_fetch_array($max);
+        //kiem tra hang trong kho
+        $flag = 0;
         foreach ($_SESSION['chitiet-donhang'] as $item) {
-            $capnhat_chitiet_donhang = "INSERT INTO detail_orders(id_order, pid, quantity, unit, price) VALUE ('$row[0]','$item[pid]','$item[quantity]','$item[unit]','$item[price]') ";
-            mysqli_query($conn, $capnhat_chitiet_donhang);
-            // unset($_SESSION['chitiet-donhang']);
+            $sqlsp = "SELECT soluongkho FROM  products WHERE id ='$item[pid]'";
+            $sql = mysqli_query($conn, $sqlsp);
+            $soluongkho = mysqli_fetch_array($sql);
+            if ($item['quantity'] > $soluongkho['soluongkho']) {
+                $flag = 1;             
+            }
         }
-
-        // mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-        $message[] = 'Đặt hàng thành công!';
+        if ($flag == 0) {
+            mysqli_query($conn, "INSERT INTO `orders`(user_id, method, total_price, name_receive,number_receive,message_card) VALUES('$user_id', '$method', '$cart_total','$name_receive','$number_receive','$message_card')") or die('query failed');
+            $max = mysqli_query($conn, "select max(id) from orders");
+            $row = mysqli_fetch_array($max);
+            foreach ($_SESSION['chitiet-donhang'] as $item) {
+                $capnhat_chitiet_donhang = "INSERT INTO detail_orders(id_order, pid, quantity, unit, price) VALUE ('$row[0]','$item[pid]','$item[quantity]','$item[unit]','$item[price]') ";
+                mysqli_query($conn, $capnhat_chitiet_donhang);
+                $capnhat_sl_sp = "UPDATE products SET soluongkho = soluongkho -'$item[quantity]' WHERE id='$item[pid]'";
+                mysqli_query($conn, $capnhat_sl_sp);
+                $message[] = 'Đặt hàng thành công!';
+                // unset($_SESSION['chitiet-donhang']);
+            }
+           
+        } else {
+            $message[] = 'Lượng hàng trong kho không đủ, đặt hàng thất bại!';
+        }
+        // mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed'); reset giỏ hàng
     }
 }
 $sql = "SELECT * FROM users where id='$user_id'";
@@ -202,7 +218,7 @@ $row = mysqli_fetch_array($sth);
                     ?>
                             <tr>
                                 <td><?php echo $fetch_cart['name'] ?></td>
-                                <td><?php echo number_format($price, 0, ",", ".") . "đ" . ' x ' . $fetch_cart['quantity'] .$fetch_cart['unit']  ?></td>
+                                <td><?php echo number_format($price, 0, ",", ".") . "đ" . ' x ' . $fetch_cart['quantity'] . $fetch_cart['unit']  ?></td>
                             </tr>
                     <?php
                         }

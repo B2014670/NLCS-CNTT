@@ -75,7 +75,7 @@ if (isset($_GET['delete'])) {
                            <th scope="col">số điện thoại</th>
                            <th scope="col">thời gian đặt hàng</th>
                            <th scope="col">trạng thái</th>
-                           <th scope="col">thao tác</th>
+                           <th scope="col">Thao tác</th>
                         </tr>
                      </thead>
                      
@@ -121,7 +121,7 @@ if (isset($_GET['delete'])) {
                                  </td>
 
                                  <td>
-                                 <a href="admin_orders.php?delete=<?php echo $fetch_orders['id']; ?>" class="delete-btn btn-lg mt-0" onclick="return confirm('delete this order?');">xóa</a>
+                                 <a href="admin_orders.php?delete=<?php echo $fetch_orders['id']; ?>" class="delete-btn btn-lg mt-0" onclick="return confirm('bạn chắc chắn muốn xóa đơn hàng này?');">xóa</a>
                                  <a href="admin_detail_orders.php?detail_order=<?php echo $fetch_orders['id']; ?>" class="option-btn bg-primary btn-lg mt-0">Xem chi tiết</a>
                                  </td>
 

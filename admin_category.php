@@ -74,7 +74,7 @@ if (isset($_POST['add_type'])) {
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th scope="col">id loại</th>
+                                    <th scope="col">mã loại</th>
                                     <th scope="col">tên loại</th>
                                     <th scope="col">Thao tác</th>
                                 </tr>
@@ -101,7 +101,7 @@ if (isset($_POST['add_type'])) {
 
                                             <td>
                                                 <a href="admin_update_category.php?update_type=<?php echo $fetch_types['id_type']; ?>" class="option-btn btn-lg">cập nhật</a>
-                                                <a href="admin_category.php?delete_type=<?php echo $fetch_types['id_type']; ?>" class="delete-btn btn-lg" onclick="return confirm('delete this product?');">xóa</a>
+                                                <a href="admin_category.php?delete_type=<?php echo $fetch_types['id_type']; ?>" class="delete-btn btn-lg" onclick="return confirm('chắc chắn xóa loại hoa này?');">xóa</a>
                                             </td>
                                         </tr>
                                 <?php
