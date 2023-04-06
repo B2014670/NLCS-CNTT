@@ -8,6 +8,7 @@
             while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
             $id_order = $fetch_orders['id']
         ?>
+        
                 <div class="box">
                     <p> #<span><?php echo $fetch_orders['id']; ?></span> </p>
                     <p> ngày đặt : <span><?php echo $fetch_orders['placed_on']; ?></span> </p>                    

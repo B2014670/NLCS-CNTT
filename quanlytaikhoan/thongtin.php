@@ -5,7 +5,7 @@
                 <!-- <div class="col-4 d-flex justify-content-center align-items-center"> -->
                 <div class="col-md-4 col-sm-12 col-12 text-center">
                     <img class="rounded-circle d-block mx-auto" width="300px" height="300px" src="uploaded_img/<?php echo $row['avatar'];   ?>" alt="">
-                    <label for="avatar" class="text-center bg-success text-white p-2 rounded mt-1">Tải ảnh lên</label>
+                    <label for="avatar" class="text-center bg-primary text-white p-2 rounded mt-1">Tải ảnh lên</label>
                     <input type="file" accept="image/jpg, image/jpeg, image/png" id="avatar" name="avatar" class="d-none">
                 </div>
 
@@ -35,7 +35,7 @@
                         <input type="text" class="form-control" value="<?php echo $row['address'] ?>" placeholder="chưa có địa chỉ" name="diachi" id="">
                     </div>
                     <div class="form-group mt-2 mb-2">
-                        <button class="btn w-100  bg-success text-white" name="capnhatthongtin" type="submit">Cập nhật</button>
+                        <button class="btn w-100  bg-primary text-white" name="capnhatthongtin" type="submit">Cập nhật</button>
                     </div>
                 </div>
         </form>
