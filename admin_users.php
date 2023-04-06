@@ -55,12 +55,13 @@ if (isset($_GET['delete'])) {
             </div>
             <div class="card-body">
                <div class="table-responsive">
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
                            <th scope="col">id người dùng</th>
                            <th scope="col">tên tài khoản</th>
                            <th scope="col">email </th>
+                           <th scope="col">số điện thoại </th>
                            <th scope="col">loại người dùng</th>
                            <th scope="col">Thao tác</th>
                         </tr>
@@ -82,6 +83,10 @@ if (isset($_GET['delete'])) {
                                     <div>
                                        <span><?php echo $fetch_users['name']; ?></span>
                                     </div>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_users['phone']; ?></span>
                                  </td>
 
                                  <td>

@@ -15,6 +15,12 @@ if (isset($_GET['delete_type'])) {
     mysqli_query($conn, "DELETE FROM `types` WHERE id_type = '$type_id'") or die('query failed');
     header('location:admin_category.php');
 }
+if (isset($_GET['delete_km'])) {
+    $id = $_GET['delete_km'];
+    mysqli_query($conn, "UPDATE `products` SET sale_price = 0 WHERE id = $id") or die('query failed');
+    
+    // header('location:admin_category.php');
+}
 if (isset($_POST['add_type'])) {
     $type_name = $_POST['name_type'];
     $select_types = mysqli_query($conn, "SELECT * FROM `types` WHERE name_type ='$type_name'") or die('query failed');
@@ -54,15 +60,91 @@ if (isset($_POST['add_type'])) {
 
 <body>
     <?php @include 'admin_header.php'; ?>
-    <section>
-        <h1 class="title">Danh mục</h1>
+    <section>      
+      <div class="container">
+         <!-- DataTales Example -->
+         <div class="card shadow mb-4">
+            <div class="card-header py-3 row">
+               <h1 class="col m-0 font-weight-bold text-primary">Khuyến mãi áp dung với bó</h1>
+               <div class="col">                
+
+                  
+               </div>
+               <div class="col-md-4">
+                  <a href="admin_add_km.php" class="col-md-4 offset-md-8 col-sm-6 offset-sm-6 btn btn-primary ">
+                     <i class="fa fa-plus"></i> Thêm giảm giá</a>
+               </div>
+
+            </div>
+            <div class="card-body">
+               <div class="table-responsive ">
+                  <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                           <th scope="col">#</th>                           
+                           <th scope="col">tên </th>
+                           <th scope="col">đơn giá bó cũ</th>  
+                           <th scope="col">giá khuyễn mãi</th>                          
+                           <th scope="col">giảm %</th>                                                                                                          
+                           <th scope="col" style="width:100px;">Thao tác</th>
+                        </tr>
+                     </thead>
+
+                     <tbody>
+                        <?php
+                        $select_products = mysqli_query($conn, "SELECT id,name,price,sale_price,giacanh FROM products WHERE sale_price <>0 ") or die('query failed');
+                        if (mysqli_num_rows($select_products) > 0) {
+                           while ($fetch_products = mysqli_fetch_assoc($select_products)) {
+                        ?>
+                              <tr>
+                                 <td>
+                                    <div>
+                                       <span><?php echo $fetch_products['id']; ?></span>
+                                    </div>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_products['name']; ?></span>
+                                 </td>
+
+                                 <td>
+                                    <span><?php echo $fetch_products['price']; ?></span>
+                                 </td>                                                               
+                                 
+                                 <td>
+                                    <span><?php echo ($fetch_products['sale_price']!=0)?(100-$fetch_products['sale_price'])*$fetch_products['price']/100: ''?></span>
+                                 </td> 
+
+                                 <td>
+                                    <span><?php echo $fetch_products['sale_price'] ?></span>
+                                 </td>
+
+                                 <td>
+                                    <a href="admin_update_product.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn btn-lg">cập nhật</a>
+                                    <a href="admin_category.php?delete_km=<?php echo $fetch_products['id']; ?>" class="delete-btn btn-lg" onclick="return confirm('bạn chắc chắn muốn xóa khuyến mãi này?');">xóa</a>
+                                 </td>
+                              </tr>
+                        <?php
+                           }
+                        }
+                        ?>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+
+      </div>
+
+   </section>
+    <section>        
         <div class="container">
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3 row">
                     <h1 class="col m-0 font-weight-bold text-primary">Loại</h1>
                     <form class="form-inline" method="POST">
-                        <div class="form-group p-3">
+                        <div class="form-group ">
                             <input type="text" class="form-control" name="name_type" placeholder="tên loại">
                         </div>
                         <input type="submit" name="add_type" class="btn btn-primary mt-0 " value="Thêm loại"></input>
@@ -71,7 +153,7 @@ if (isset($_POST['add_type'])) {
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th scope="col">mã loại</th>
@@ -112,65 +194,8 @@ if (isset($_POST['add_type'])) {
                         </table>
                     </div>
                 </div>
-            </div>
-            <!-- DataTales Example -->
-            <!-- <div class="card shadow mb-4">
-                <div class="card-header py-3 row">
-                    <h1 class="col m-0 font-weight-bold text-primary">Loại</h1>
-                    <form class="form-inline" method="POST">
-                        <div class="form-group p-3">
-                            <input type="text" class="form-control" name="name_type" placeholder="tên loại">
-                        </div>
-                        <input type="submit" name="add_type" class="btn btn-primary mt-0 " value="Thêm loại"></input>
-                    </form>
-
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th scope="col">id loại</th>
-                                    <th scope="col">tên loại</th>
-                                    <th scope="col">Thao tác</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <?php
-                                $select_types = mysqli_query($conn, "SELECT * FROM `types`") or die('query failed');
-                                if (mysqli_num_rows($select_types) > 0) {
-                                    while ($fetch_types = mysqli_fetch_assoc($select_types)) {
-                                ?>
-                                        <tr>
-                                            <td>
-                                                <div>
-                                                    <span><?php echo $fetch_types['id_type']; ?></span>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <div>
-                                                    <span><?php echo $fetch_types['name_type']; ?></span>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <a href="admin_update_category.php?update_type=<?php echo $fetch_types['id_type']; ?>" class="option-btn btn-lg">cập nhật</a>
-                                                <a href="admin_category.php?delete_type=<?php echo $fetch_types['id_type']; ?>" class="delete-btn btn-lg" onclick="return confirm('delete this product?');">xóa</a>
-                                            </td>
-                                        </tr>
-                                <?php
-                                    }
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> -->
+            </div>            
         </div>
-
 
     </section>
 

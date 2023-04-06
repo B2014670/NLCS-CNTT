@@ -117,7 +117,7 @@ $select_products = mysqli_query($conn, $sql_lietke_sp);
             </div>
             <div class="card-body">
                <div class="table-responsive">
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
                            <th scope="col" class="col-md-1">#</th>

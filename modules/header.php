@@ -80,7 +80,7 @@ if (isset($message)) {
             <div class="account-box ">
                 <?php
                     if(isset($_SESSION['user_name'])){
-                        echo '<a href="profile.php?query=taikhoan">Thông tin cá nhân</a> <p>username : <span>' 
+                        echo '<a href="profile.php?query=taikhoan">Tài khoản cá nhân</a> <p>username : <span>' 
                         .$_SESSION['user_name'] .'</span></p> <p>email : <span>' 
                         .$_SESSION['user_email'] .'</span></p> <a href="logout.php" class="delete-btn">đăng xuất</a>';
                     }else{

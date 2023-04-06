@@ -85,9 +85,9 @@ $row = mysqli_fetch_array($sth);
     ?>
     <div class="container mt-3" style="padding-top: 100px;">
         <ul class="taikhoan-nav navbar navbar-expand-lg navbar-light bg-light p-0 mx-auto">
-            <li class="col text-center"><a class="text-dark" href="profile.php?query=taikhoan">TÀI KHOẢN</a></li>
-            <li class="col text-center"><a class="text-dark" href="profile.php?query=tatca">TẤT CẢ</a></li>
-            <li class="col text-center"><a class="text-dark" href="profile.php?query=choxacnhan">CHỜ XÁC NHẬN</a></li>            
+            <li class="col text-center"><a class="text-dark" href="profile.php?query=taikhoan">THÔNG TIN</a></li>
+            <li class="col text-center"><a class="text-dark" href="profile.php?query=tatca">TẤT CẢ ĐƠN</a></li>
+            <li class="col text-center"><a class="text-dark" href="profile.php?query=choxacnhan">ĐƠN CHỜ XÁC NHẬN</a></li>            
             <li class="col text-center"><a class="text-dark" href="profile.php?query=hoanthanh">LỊCH SỬ MUA HÀNG</a></li>
         </ul>
     </div>

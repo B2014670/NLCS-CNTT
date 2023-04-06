@@ -34,8 +34,8 @@
                         <label for="">Địa chỉ nhận hàng</label>
                         <input type="text" class="form-control" value="<?php echo $row['address'] ?>" placeholder="chưa có địa chỉ" name="diachi" id="">
                     </div>
-                    <div class="form-group mt-2 mb-2">
-                        <button class="btn w-100  bg-primary text-white" name="capnhatthongtin" type="submit">Cập nhật</button>
+                    <div class="form-group mt-2 mb-2 text ">
+                        <button class="btn p-2 bg-primary text-white" name="capnhatthongtin" type="submit">Cập nhật</button>
                     </div>
                 </div>
         </form>
