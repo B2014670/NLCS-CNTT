@@ -112,9 +112,8 @@ if (isset($_GET['delete'])) {
                                     <form action="" method="post">
                                        <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">
                                        <select name="update_payment" required>
-                                          <option disabled selected><?php echo $fetch_orders['payment_status']; ?></option>
-                                          <option value="đang xử lý">đang xử lý</option>
-                                          <option value="hoàn thành">hoàn thành</option>
+                                          <option value="đang xử lý"<?php if($fetch_orders['payment_status']=="đang xử lý") echo 'selected' ; ?>>đang xử lý</option>
+                                          <option value="hoàn thành" <?php if($fetch_orders['payment_status']=="hoàn thành") echo 'selected' ; ?>>hoàn thành</option>
                                        </select>
                                        <input type="submit" name="update_order" value="cập nhật" class="option-btn btn-lg mt-0">
                                     </form>

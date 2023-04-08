@@ -83,14 +83,14 @@ if (isset($_GET['delete'])) {
                                     <div>
                                        <span><?php echo $fetch_users['name']; ?></span>
                                     </div>
-                                 </td>
-
-                                 <td>
-                                    <span><?php echo $fetch_users['phone']; ?></span>
-                                 </td>
+                                 </td>                                 
 
                                  <td>
                                     <span><?php echo $fetch_users['email']; ?></span>
+                                 </td>
+                                 
+                                 <td>
+                                    <span><?php echo $fetch_users['phone']; ?></span>
                                  </td>
 
                                  <td>

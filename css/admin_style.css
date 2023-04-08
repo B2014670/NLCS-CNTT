@@ -53,7 +53,7 @@ body{
 }
 
 section{
-   padding:3rem 2rem;
+   padding:1rem 2rem;
 }
 
 .title{
@@ -309,7 +309,7 @@ section{
 }
 
 .add-products form textarea{
-   height: 15rem;
+   height: 5rem;
    resize: none;
 }
 

@@ -92,7 +92,7 @@ if (isset($_POST['add_product'])) {
          <input type="number" min="0" class="box" placeholder="nhập giá cành" name="giacanh">
          <input type="number" min="0" max="100" class="box" placeholder="nhập  khuyến mãi %" name="sale_price">
          <input type="number" min="0" class="box" placeholder="nhập  số lượng nhập hàng" name="soluongkho">
-         <textarea name="details" class="box" required placeholder="nhập mô tả sản phẩm" cols="30" rows="10"></textarea>
+         <textarea name="details" class="box " required placeholder="nhập mô tả sản phẩm" cols="30" rows="10"></textarea>
          <input type="file" accept="image/jpg, image/jpeg, image/png" required class="box" name="image">
          <input type="submit" value="thêm sản phẩm" name="add_product" class="option-btn">
       </form>
