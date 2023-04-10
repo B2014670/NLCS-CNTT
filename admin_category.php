@@ -182,7 +182,7 @@ if (isset($_POST['add_type'])) {
                                             </td>
 
                                             <td>
-                                                <a href="admin_update_category.php?update_type=<?php echo $fetch_types['id_type']; ?>" class="option-btn btn-lg">cập nhật</a>
+                                                <a href="admin_edit_km.php?update_type=<?php echo $fetch_types['id_type']; ?>" class="option-btn btn-lg">cập nhật</a>
                                                 <a href="admin_category.php?delete_type=<?php echo $fetch_types['id_type']; ?>" class="delete-btn btn-lg" onclick="return confirm('chắc chắn xóa loại hoa này?');">xóa</a>
                                             </td>
                                         </tr>
