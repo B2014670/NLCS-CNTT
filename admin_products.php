@@ -171,7 +171,7 @@ $select_products = mysqli_query($conn, $sql_lietke_sp);
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_products['details']; ?></span>
+                                    <p class="describe mx-auto"><?php echo $fetch_products['details']; ?></p>                                     
                                  </td>
 
                                  <td>

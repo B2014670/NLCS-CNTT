@@ -322,6 +322,12 @@ section{
    margin: 0 auto;
    justify-content: center;
 }
+.describe{
+   width: 300px; /* set the width to 200 pixels */
+   height: 100px; /* set the height to 100 pixels */
+   overflow: auto; /* add a scrollbar if the content overflows */
+   margin-bottom: 0;
+}
 
 .show-products .box-container .box{
    text-align: center;
