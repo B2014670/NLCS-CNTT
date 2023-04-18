@@ -57,7 +57,7 @@ if (isset($_POST['add_km'])) {
             </div>
             <div class="card-body">
                <div class="table-responsive">
-                  <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
+                  <table class="table table-bordered text-dark text-center " id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
                            <th scope="col">#</th>
@@ -68,7 +68,7 @@ if (isset($_POST['add_km'])) {
                         </tr>
                      </thead>
 
-                     <tbody class="text-center">
+                     <tbody class="text-center ">
                         <?php
                         $fetch_products = mysqli_query($conn, "SELECT id,name,price,sale_price,giacanh FROM products WHERE sale_price = 0  ") or die('query failed');
                         if (mysqli_num_rows($fetch_products) > 0) {
@@ -90,11 +90,11 @@ if (isset($_POST['add_km'])) {
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_product['giacanh'];?></span>
+                                    <span ><?php echo $fetch_product['giacanh'];?></span>
                                  </td>
 
                                  <td>
-                                    <form class="mt-2 p-0" method="POST">
+                                    <form class="my-auto p-0" method="POST">
                                        <input type="hidden" value=" <?php echo $fetch_product['id'] ?> " name="id_km">
 
                                        <input type="number" min="0" max="100" value="<?php echo $fetch_product['sale_price']; ?>" name="sale_price" class="qty text-center border p-2 m-0" style="width:50px">

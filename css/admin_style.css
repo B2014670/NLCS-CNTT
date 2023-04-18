@@ -304,7 +304,7 @@ section{
    color:var(--black);
    border-radius: .5rem;
    background-color: var(--light-bg);
-   padding:1.2rem 1.4rem;
+   padding:1rem 1.4rem;
    border:var(--border);
 }
 

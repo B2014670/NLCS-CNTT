@@ -39,7 +39,7 @@ if (isset($_GET['delete'])) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>dashboard</title>
+   <title>Quản lý đơn hàng</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -55,7 +55,7 @@ if (isset($_GET['delete'])) {
 
    <section class="placed-orders">
 
-      <h1 class="title">placed orders</h1>
+      <h1 class="title">Chi tiết đơn hàng</h1>
 
       <div class="box-container">
 
@@ -100,7 +100,7 @@ if (isset($_GET['delete'])) {
                      </table>
                      </p>
 
-                     <p> tổng tiền : <span><?php echo $fetch_orders['total_price']; ?>đ</span> </p>
+                     <p> tổng tiền : <span><?php echo number_format($fetch_orders['total_price'], 0, ",", ".") . "đ" ?></span> </p>
                      <p> phương thức thanh toán : <span><?php echo $fetch_orders['method']; ?></span> </p>
                      <form action="" method="POST">
                         <input type="hidden" name="order_id" value="<?php echo $id; ?>">

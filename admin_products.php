@@ -55,7 +55,7 @@ $select_products = mysqli_query($conn, $sql_lietke_sp);
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>products</title>
+   <title>Quản lý sản phẩm</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -117,7 +117,7 @@ $select_products = mysqli_query($conn, $sql_lietke_sp);
             </div>
             <div class="card-body">
                <div class="table-responsive">
-                  <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
+                  <table class="table table-bordered text-dark text-center" id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
                            <th scope="col" class="col-md-1">#</th>
@@ -155,11 +155,11 @@ $select_products = mysqli_query($conn, $sql_lietke_sp);
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_products['price']; ?></span>
+                                    <span><?php echo number_format($fetch_products['price'], 0, ",", ".") . "đ" ?></span>
                                  </td>
 
                                  <td>
-                                    <span><?php echo $fetch_products['giacanh'] ?></span>
+                                    <span><?php echo number_format($fetch_products['giacanh'] , 0, ",", ".") . "đ" ?></span>
                                  </td>
 
                                  <td>
@@ -171,7 +171,7 @@ $select_products = mysqli_query($conn, $sql_lietke_sp);
                                  </td>
 
                                  <td>
-                                    <p class="describe mx-auto"><?php echo $fetch_products['details']; ?></p>                                     
+                                    <p class="describe mx-auto text-start"><?php echo $fetch_products['details']; ?></p>                                     
                                  </td>
 
                                  <td>

@@ -42,7 +42,7 @@ if (isset($_POST['add_type'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>products</title>
+    <title>Quản lý </title>
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -120,7 +120,7 @@ if (isset($_POST['add_type'])) {
                                  </td>
 
                                  <td>
-                                    <a href="admin_update_product.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn btn-lg">cập nhật</a>
+                                    <a href="admin_edit_km.php?update_km=<?php echo $fetch_products['id']; ?>" class="option-btn btn-lg">cập nhật</a>
                                     <a href="admin_category.php?delete_km=<?php echo $fetch_products['id']; ?>" class="delete-btn btn-lg" onclick="return confirm('bạn chắc chắn muốn xóa khuyến mãi này?');">xóa</a>
                                  </td>
                               </tr>
@@ -182,7 +182,7 @@ if (isset($_POST['add_type'])) {
                                             </td>
 
                                             <td>
-                                                <a href="admin_edit_km.php?update_type=<?php echo $fetch_types['id_type']; ?>" class="option-btn btn-lg">cập nhật</a>
+                                                <a href="admin_edit_type.php?update_type=<?php echo $fetch_types['id_type']; ?>" class="option-btn btn-lg">cập nhật</a>
                                                 <a href="admin_category.php?delete_type=<?php echo $fetch_types['id_type']; ?>" class="delete-btn btn-lg" onclick="return confirm('chắc chắn xóa loại hoa này?');">xóa</a>
                                             </td>
                                         </tr>
