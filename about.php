@@ -53,7 +53,8 @@ if (!isset($user_id)) {
 
             <div class="content">
                 <h3>Tại sao nên chọn shop chúng tôi?</h3>
-                <p>Shop hoa tươi chúng tôi là một tên gọi đại diện cho một trong những vườn hoa tươi của thị trường hoa online.
+                
+                <p class="font-weight-bold">Shop hoa tươi chúng tôi là một tên gọi đại diện cho một trong những vườn hoa tươi của thị trường hoa online.
                     Tại đây chúng tôi có thể giúp bạn mang đến cho người thân, bạn bè, cũng như người mà bạn dành những tình cảm thương mến nhưng món quà hết sức đặc biệt và đầy ý nghĩa.</p>
                 <a href="product.php" class="btn">Mua ngay</a>
             </div>

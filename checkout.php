@@ -181,7 +181,7 @@ $row = mysqli_fetch_array($sth);
 
                     <div class="inputBox ">
                         <span>Thông điệp ghi banner / thiệp đính kèm</span>
-                        <textarea class="form-control form-control-lg " name="message_card" id="" cols="30" rows="10"></textarea>
+                        <textarea class="form-control form-control-lg " name="message_card" id="" cols="30" rows="3"></textarea>
                     </div>
 
                 </div>

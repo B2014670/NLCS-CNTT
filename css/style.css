@@ -247,7 +247,21 @@ a{
    width: 100%;
    object-fit: cover;
 }
+/* a */
+.products .box-container .box .sale{
+   position: absolute;
+   top:1rem;
+   left:1rem;
+   height: 3rem;
+   width: 4.5rem;
+   font-size: 1.8rem;
+   background-color: var(--light-white);
+   color:var(--black);
+   border:var(--border);
+}
 
+
+/* a */
 .products .box-container .box .name, 
 .products .box-container .box .price{
    margin:1rem;
@@ -515,7 +529,7 @@ display: flex;
    max-width: 1200px;
    margin:0 auto;
    border-radius: .5rem;
-   padding:2rem;
+   padding:1rem;
    box-shadow: var(--border);
 }
 

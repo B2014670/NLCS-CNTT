@@ -85,16 +85,17 @@ if (isset($_POST['add_to_cart']) && isset($_SESSION['user_id'])) {
         <div class="box-container">
 
             <?php
-            $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT 6") or die('query failed');
+            $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY products.sale_price DESC  LIMIT 6") or die('query failed');
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
             ?>
                     <form action="" method="POST" class="box">
-                        <a href="view_page.php?pid=<?php echo $fetch_products['id']; ?>">
+                        <a href="view_page.php?pid=<?php echo $fetch_products['id']; ?>">                                                        
                             <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="" class="image">
                             <div class="name"><?php echo $fetch_products['name']; ?></div>
                             <?php
                             if ($fetch_products['sale_price'] != 0) {
+                                echo "<div class='sale'>" .$fetch_products['sale_price']. "%</div>";
                                 echo '<div class="row">
                                         <p class="price col  text-decoration-line-through text-right" >' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</p>
                                         <p class="price col text-danger text-left text-left">' . number_format((100 - $fetch_products['sale_price']) * $fetch_products['price'] / 100, 0, ",", ".") . 'đ</p>

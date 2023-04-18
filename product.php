@@ -55,20 +55,15 @@ if (isset($_POST['add_to_cart'])) {
         <div class="row pt-0 mt-0 pb-3 text-center">
             <h1 class="title p-0">
                 <?php 
-                $danhmuc = $_GET['id_topic'] ?? $_GET['id_type'] ?? '';
+                $danhmuc =$_GET['id_type'] ?? '';
 
-                if(isset($_GET['id_topic'])){
-                    $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE id_topic = '$danhmuc' ") or die('query failed');
-                    $name_topic =  mysqli_query($conn, "SELECT name_topic FROM `topics` WHERE id_topic = '$danhmuc' LIMIT 1;") or die('query failed');
-                    $name_topic = mysqli_fetch_assoc($name_topic);
-                    echo $name_topic['name_topic'];
-                } else if (isset($_GET['id_type'])){
-                    $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE id_type = '$danhmuc' ") or die('query failed');
+                if (isset($_GET['id_type'])){
+                    $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE id_type = '$danhmuc' ORDER BY products.sale_price DESC ") or die('query failed');
                     $name_type =  mysqli_query($conn, "SELECT name_type FROM `types` WHERE id_type = '$danhmuc' LIMIT 1") or die('query failed');
                     $name_type = mysqli_fetch_assoc($name_type);
                     echo $name_type['name_type'];
                 } else {
-                    $select_products = mysqli_query($conn, "SELECT * FROM `products` ") or die('query failed');
+                    $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY products.sale_price DESC ") or die('query failed');
                     echo "Tất cả sản phẩm";
                 }
                 ?>
@@ -82,11 +77,25 @@ if (isset($_POST['add_to_cart'])) {
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
             ?>
+                    
                     <form action="" method="POST" class="box">
-                        <a href="view_page.php?pid=<?php echo $fetch_products['id']; ?>">
+                        <a href="view_page.php?pid=<?php echo $fetch_products['id']; ?>">                                                        
                             <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="" class="image">
                             <div class="name"><?php echo $fetch_products['name']; ?></div>
-                            <div class="price"><?php echo number_format($fetch_products['price'], 0, ",", ".") . "đ" ?></div>
+                            <?php
+                            if ($fetch_products['sale_price'] != 0) {
+                                echo "<div class='sale'>" .$fetch_products['sale_price']. "%</div>";
+                                echo '<div class="row">
+                                        <p class="price col  text-decoration-line-through text-right" >' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</p>
+                                        <p class="price col text-danger text-left text-left">' . number_format((100 - $fetch_products['sale_price']) * $fetch_products['price'] / 100, 0, ",", ".") . 'đ</p>
+                                    </div>';
+                            } else {
+                                echo '<div class="row">
+                                        <div class="price col">' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</div>
+                                        
+                                    </div>';
+                            }
+                            ?>
                         </a>
                         <input type="hidden" name="product_quantity" value="1" min="0" class="qty">
                         <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">

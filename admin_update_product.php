@@ -31,16 +31,16 @@ if(isset($_POST['update_product'])){
    // $image_new = rand(1,10000) .time() .$_FILES['image']['name'] ;
    if(!empty($image)){
       if($image_size > 2000000){
-         $message[] = 'image file size is too large!';
+         $message[] = 'kích thước file ảnh quá lớn!';
       }else{
          mysqli_query($conn, "UPDATE `products` SET image = '$image' WHERE id = '$update_p_id'") or die('query failed');
          move_uploaded_file($image_tmp_name, $image_folter);
          unlink('uploaded_img/'.$old_image);
-         $message[] = 'image updated successfully!';
+         $message[] = 'Ảnh đã được cập nhật!';
       }
    }
 
-   $message[] = 'product updated successfully!';
+   $message[] = 'sản phẩm đã được cập nhật!';
 
 }
 
@@ -106,7 +106,7 @@ if(isset($_POST['update_product'])){
 <?php
       }
    }else{
-      echo '<p class="empty">no update product select</p>';
+      echo '<p class="empty">không có sản phẩm nào</p>';
    }
 ?>
 

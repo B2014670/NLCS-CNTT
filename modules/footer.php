@@ -22,7 +22,7 @@
                 <h3 class=" mb-4 font-weight-bold text-body">THÔNG TIN LIÊN HỆ</h3>
                 <hr class="mb-4">
                 <p>
-                    <i class="fa-solid fa-house pl-3"></i> 9 Đồng Văn Cống
+                    <i class="fa-solid fa-house pl-3"></i> 108 Cái Kế, Ninh kiều, Cần Thơ
                 </p>
                 <p>
                     <i class="fa-solid fa-envelope pl-3"></i> shop@gmail.com

@@ -17,12 +17,12 @@ if(isset($message)){
 
       <a href="admin_page.php" class="logo">Trang <span>Admin</span></a>
 
-      <nav class="navbar">
-         <a href="admin_category.php">Quản lý danh mục</a>
+      <nav class="navbar">         
          <a href="admin_products.php">Quản lý sản phẩm</a>
          <a href="admin_orders.php">Quản lý đơn hàng</a>
          <a href="admin_users.php">Quản lý người dùng</a>
-         <a href="admin_contacts.php">Quản lý góp ý</a>
+         <a href="admin_contacts.php">Quản lý bình luận</a>
+         <a href="admin_category.php">Quản lý khác</a>
       </nav>
       
       <div class="icons">

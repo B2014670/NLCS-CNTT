@@ -14,7 +14,7 @@
         $noidung=$_POST['content'];
 
         $so_sao=isset($_POST['rating']) ? $_POST['rating'] : 0;
-        $sql="INSERT INTO comment(id_user,pid,vote,content) values('$user_id','$pid','$so_sao','$noidung')";
+        $sql="INSERT INTO comments(id_user,pid,vote,content) values('$user_id','$pid','$so_sao','$noidung')";
         mysqli_query($conn,$sql);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }}
