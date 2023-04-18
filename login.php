@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
         }
     }
     ?>
-    <section class="vh-100" style="background-image: url('img/home-bg.png');
+    <section class="vh-100" style="background-image: url('images/home-bg.png');
     background-repeat: no-repeat;
     background-attachment: scroll;">
         <div class="container py-5 h-100">
