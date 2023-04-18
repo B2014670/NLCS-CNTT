@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2023 at 05:37 PM
+-- Generation Time: Apr 18, 2023 at 05:23 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -40,7 +40,9 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id_cart`, `user_id`, `pid`, `quantity`, `unit`) VALUES
-(268, 21, 18, 1, 'bó');
+(268, 21, 18, 1, 'bó'),
+(315, 24, 18, 2, 'bó'),
+(316, 24, 13, 1, 'cành');
 
 -- --------------------------------------------------------
 
@@ -62,8 +64,7 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `id_user`, `pid`, `content`, `vote`, `time`) VALUES
-(5, 24, 16, 'dep', 2, '2023-03-17 06:17:14'),
-(8, 21, 13, 'dep', 5, '2023-03-27 07:08:33');
+(5, 24, 16, 'dep', 2, '2023-03-17 06:17:14');
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,9 @@ INSERT INTO `detail_orders` (`id_order`, `pid`, `quantity`, `unit`, `price`) VAL
 (72, 16, 1, 'bó', 130000),
 (73, 13, 1, 'cành', 12000),
 (73, 16, 2, 'bó', 130000),
-(76, 19, 2, 'bó', 150000);
+(76, 19, 2, 'bó', 150000),
+(77, 13, 1, 'cành', 12000),
+(77, 18, 2, 'bó', 55000);
 
 -- --------------------------------------------------------
 
@@ -137,11 +140,12 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `total_price`, `method`, `placed_on`, `payment_status`, `name_receive`, `number_receive`, `message_card`) VALUES
-(58, 21, 300000, 'thanh toán khi giao hàng', '2023-01-29 02:46:25', 'đang xử lý', '', '', ''),
+(58, 21, 300000, 'thanh toán khi giao hàng', '2023-04-08 15:23:14', 'đang xử lý', '', '', ''),
 (59, 21, 110000, 'thanh toán khi giao hàng', '2023-02-24 04:43:15', 'đang xử lý', '', '', ''),
 (72, 24, 142000, 'thanh toán khi giao hàng', '2023-04-03 13:38:20', 'đang xử lý', '', '', ''),
 (73, 24, 272000, 'thanh toán khi giao hàng', '2023-04-03 14:52:24', 'hoàn thành', '', '', ''),
-(76, 24, 300000, 'thanh toán khi giao hàng', '2023-04-05 02:42:21', 'đang xử lý', '', '', '');
+(76, 24, 300000, 'thanh toán khi giao hàng', '2023-04-06 17:53:04', 'hoàn thành', '', '', ''),
+(77, 24, 122000, 'thanh toán khi giao hàng', '2023-04-18 11:14:50', 'đang xử lý', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -156,7 +160,7 @@ CREATE TABLE `products` (
   `details` varchar(500) NOT NULL,
   `price` int(100) NOT NULL,
   `giacanh` int(100) NOT NULL,
-  `sale_price` int(10) NOT NULL,
+  `sale_price` int(10) NOT NULL DEFAULT 0,
   `soluongkho` int(11) NOT NULL,
   `image` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -166,11 +170,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `id_type`, `details`, `price`, `giacanh`, `sale_price`, `soluongkho`, `image`) VALUES
-(13, 'Hoa hồng ', 1, 'Ý nghĩa của hoa hồng phấn là lòng biết ơn và sự ngưỡng mộ. Chúng là sự lựa chọn hoàn hảo cho những người bạn đánh giá cao nhất, như bạn bè, anh chị em hoặc giáo viên của bạn. Hoa hồng màu hồng cũng có thể đại diện cho sự nữ tính và sang trọng, khiến chúng trở nên hoàn hảo cho các sự kiện như tiệc đính hôn, vũ hội và tiệc mừng em bé chào đời.', 120000, 12000, 10, 10, 'pink roses.jpg'),
-(16, 'Hoa hồng oải hương', 1, ' Màu sắc nhẹ nhàng của hoa oải hương tượng trưng cho tình yêu từ cái nhìn đầu tiên hoặc thậm chí là sự thích thú. Những người đang yêu hoặc ngưỡng mộ đối tác và các thành viên trong gia đình của họ sẽ thấy hoa oải hương là biểu tượng hoàn hảo để thể hiện tình cảm thực sự của họ.', 130000, 0, 0, 10, 'lavendor rose.jpg'),
-(17, 'Tulip vàng', 4, 'Hoa tulip vàng bây giờ đại diện cho hạnh phúc, vui vẻ và hy vọng. Người Victoria thậm chí còn tin rằng hoa tulip vàng có nghĩa đen là “Có ánh nắng trong nụ cười của bạn”. Chính vì lý do này mà hoa tulip vàng đã trở thành món quà “chỉ vì” phổ biến, vì chúng chắc chắn sẽ mang lại nụ cười trên khuôn mặt của bất kỳ ai.\r\n', 140000, 0, 0, 10, 'yellow tulipa.jpg'),
-(18, 'Tulip đỏ', 4, 'Màu đỏ đậm của chúng gợi lên cảm giác đam mê, tình yêu và ham muốn — khiến chúng trở thành lựa chọn đặc biệt phổ biến cho các cặp đôi mới, trẻ tuổi. Chúng cũng có thể có nghĩa là \"hãy tin tôi\" hoặc \"cảm xúc của tôi là thật.\" Vì vậy, lần tới khi bạn cố gắng tán tỉnh người mà bạn ngưỡng mộ, hãy gửi cho họ một bó hoa tulip đỏ quyến rũ.', 110000, 0, 0, 10, 'red tulipa.jpg'),
-(19, 'Hoa hồng leo Nahema Pháp', 1, 'Hoa màu hồng tượng trưng cho sự duyên dáng, dịu dàng và hạnh phúc. Bất kể hình dạng của hoa - từ những nụ nhỏ, chặt chẽ của hoa hồng vườn hồng đến những cánh hoa mỏng manh, mở rộng của hoa mẫu đơn màu hồng đang nở rộ - những bông hoa màu hồng thể hiện tuổi trẻ, sự ngây thơ và niềm vui. Mua hoa màu hồng.', 150000, 0, 0, 1009, 'pink bouquet.jpg'),
+(13, 'Hoa hồng ', 1, 'Ý nghĩa của hoa hồng phấn là lòng biết ơn và sự ngưỡng mộ. Chúng là sự lựa chọn hoàn hảo cho những người bạn đánh giá cao nhất, như bạn bè, anh chị em hoặc giáo viên của bạn. Hoa hồng màu hồng cũng có thể đại diện cho sự nữ tính và sang trọng, khiến chúng trở nên hoàn hảo cho các sự kiện như tiệc đính hôn, vũ hội và tiệc mừng em bé chào đời.', 120000, 12000, 11, 11, 'pink roses.jpg'),
+(16, 'Hoa hồng oải hương', 1, ' Màu sắc nhẹ nhàng của hoa oải hương tượng trưng cho tình yêu từ cái nhìn đầu tiên hoặc thậm chí là sự thích thú. Những người đang yêu hoặc ngưỡng mộ đối tác và các thành viên trong gia đình của họ sẽ thấy hoa oải hương là biểu tượng hoàn hảo để thể hiện tình cảm thực sự của họ.', 130000, 13000, 0, 10, 'lavendor rose.jpg'),
+(17, 'Tulip vàng', 4, 'Hoa tulip vàng bây giờ đại diện cho hạnh phúc, vui vẻ và hy vọng. Người Victoria thậm chí còn tin rằng hoa tulip vàng có nghĩa đen là “Có ánh nắng trong nụ cười của bạn”. Chính vì lý do này mà hoa tulip vàng đã trở thành món quà “chỉ vì” phổ biến, vì chúng chắc chắn sẽ mang lại nụ cười trên khuôn mặt của bất kỳ ai.\r\n', 140000, 14000, 0, 10, 'yellow tulipa.jpg'),
+(18, 'Tulip đỏ', 4, 'Màu đỏ đậm của chúng gợi lên cảm giác đam mê, tình yêu và ham muốn — khiến chúng trở thành lựa chọn đặc biệt phổ biến cho các cặp đôi mới, trẻ tuổi. Chúng cũng có thể có nghĩa là \"hãy tin tôi\" hoặc \"cảm xúc của tôi là thật.\" Vì vậy, lần tới khi bạn cố gắng tán tỉnh người mà bạn ngưỡng mộ, hãy gửi cho họ một bó hoa tulip đỏ quyến rũ.', 110000, 11000, 50, 8, 'red tulipa.jpg'),
+(19, 'Hoa hồng leo Nahema Pháp', 1, 'Hoa màu hồng tượng trưng cho sự duyên dáng, dịu dàng và hạnh phúc. Bất kể hình dạng của hoa - từ những nụ nhỏ, chặt chẽ của hoa hồng vườn hồng đến những cánh hoa mỏng manh, mở rộng của hoa mẫu đơn màu hồng đang nở rộ - những bông hoa màu hồng thể hiện tuổi trẻ, sự ngây thơ và niềm vui. Mua hoa màu hồng.', 150000, 15000, 0, 0, 'pink bouquet.jpg'),
 (20, 'Hoa hồng phấn nữ hoàng', 1, 'Hoa có mùi thơm rất nồng, mùi nước hoa cổ thụ rất quyến rũ. Tất cả những gì cần thiết là một bó hoa và một vài bông hoa để có một căn phòng thơm.  ', 230000, 23000, 10, 50, 'pink queen rose.jpg');
 
 -- --------------------------------------------------------
@@ -286,13 +290,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id_cart` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=315;
+  MODIFY `id_cart` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=317;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `message`
@@ -304,19 +308,19 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `types`
 --
 ALTER TABLE `types`
-  MODIFY `id_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
