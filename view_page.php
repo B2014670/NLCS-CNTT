@@ -220,7 +220,7 @@ if (isset($_POST['add_to_cart']) ) {
                                         <div class="comment-btns mt-2">
 
                                             <div class="text-left">
-                                                <button class="btn btn-success" name="thembinhluan" type="submit">GỬI</button>
+                                                <button class="btn " name="thembinhluan" type="submit">GỬI</button>
                                             </div>
 
                                         </div>
