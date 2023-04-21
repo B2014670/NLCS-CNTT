@@ -105,7 +105,7 @@ $select_products = mysqli_query($conn, $sql_lietke_sp);
                      <div class="form-group">
                         <input class="form-control  col-md-2 col-md-3" type="number" name="soluong" id="sl-sp-cong-them">
                         <input type="hidden" name="key" value="<?php echo isset($_POST['orderbysp'])?$_POST['orderbysp'] :'ALL' ?>">
-                        <button class="btn btn-secondary col p-2 m-2" name="capnhat-tatca">Cộng Thêm Số Lượng Cho Tất Cả</button>
+                        <button class="btn btn-secondary col p-2 m-2" name="capnhat-tatca">Cộng Thêm Số Lượng </button>
                      </div>
                   </form>
                </div>
