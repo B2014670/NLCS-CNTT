@@ -9,23 +9,23 @@ $user_id = $_SESSION['user_id'];
 if (!isset($user_id)) {
     // header('location:login.php');
 };
-if (isset($_POST['add_to_cart']) ) {
+if (isset($_POST['add_to_cart'])) {
     if (!isset($user_id)) {
         header('location:login.php');
-    }else{
+    } else {
         $product_id = $_POST['product_id'];
         $product_quantity = $_POST['product_quantity'];
-        $product_unit = isset($_POST['unit'])?$_POST['unit']:'bó';
-    
+        $product_unit = isset($_POST['unit']) ? $_POST['unit'] : 'bó';
+
         $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `carts` WHERE pid = '$product_id' AND user_id = '$user_id' ") or die('query failed');
-    
+
         if (mysqli_num_rows($check_cart_numbers) > 0) {
             $message[] = 'Đã thêm vào giỏ hàng';
         } else {
             mysqli_query($conn, "INSERT INTO `carts`(user_id, pid,  quantity, unit) VALUES('$user_id', '$product_id',  '$product_quantity', '$product_unit')") or die('query failed');
             $message[] = 'Thêm vào giỏ hàng thành công';
         }
-    }    
+    }
 }
 
 ?>
@@ -76,11 +76,11 @@ if (isset($_POST['add_to_cart']) ) {
                                     <h2 class="card-title name"><?php echo $fetch_products['name']; ?></h2>
                                     <h2 class="mt">
                                         <?php
-                                        if (!isset($_POST['unit'])){
-                                            $_POST['unit']='bó';
-                                        } 
+                                        if (!isset($_POST['unit'])) {
+                                            $_POST['unit'] = 'bó';
+                                        }
                                         if (isset($_POST['unit']) && $_POST['unit'] === 'bó') {
-                                            $unit =$_POST['unit'];
+                                            $unit = $_POST['unit'];
                                             if ($fetch_products['sale_price'] != 0) {
                                                 echo '<div class="row">
                                                         <p class="price col-md-2 col-sm-3 text-decoration-line-through text-right" >' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</p>
@@ -91,37 +91,41 @@ if (isset($_POST['add_to_cart']) ) {
                                                         <p class="price col">' . number_format($fetch_products['price'], 0, ",", ".") . 'đ</p>   
                                                     </div>';
                                             }
-                                        }else if(isset($_POST['unit']) && $_POST['unit'] === 'cành'){//canh
-                                            $unit =$_POST['unit'];
+                                        } else if (isset($_POST['unit']) && $_POST['unit'] === 'cành') { //canh
+                                            $unit = $_POST['unit'];
                                             echo '<div class="row">
                                             <p class="price col">' . number_format($fetch_products['giacanh'], 0, ",", ".") . 'đ</p>   
                                                 </div>';
-                                        }                                
+                                        }
                                         ?>
                                         <!-- <h1><?php echo number_format($fetch_products['sale_price'] != 0 ? $fetch_products['sale_price'] : $fetch_products['price'], 0, ",", ".") . "đ" ?></h1> -->
                                     </h2>
-                                    <form method="POST" id="choseunit" >
-                                            <div class="row">
-                                                <div class="col-md-2 col-sm-3">
-                                                    Đơn vị:
+                                    <form method="POST" id="choseunit">
+                                        <div class="row">
+                                            <div class="col-md-2 col-sm-3">
+                                                Đơn vị:
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" id="radio1" name="unit" value="bó" <?php if (!isset($_POST['unit']) || $_POST['unit'] === 'bó') echo 'checked'; ?>>
+                                                    <label class="form-check-label" for="radio1">Bó</label>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="form-check">
-                                                        <input type="radio" class="form-check-input" id="radio1" name="unit" value="bó" <?php if (!isset($_POST['unit']) || $_POST['unit'] === 'bó') echo 'checked'; ?>>
-                                                        <label class="form-check-label" for="radio1">Bó</label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input type="radio" class="form-check-input" id="radio2" name="unit" value="cành" <?php if (isset($_POST['unit']) && $_POST['unit'] === 'cành') echo 'checked'; ?>>
-                                                        <label class="form-check-label" for="radio2">Cành</label>
-                                                    </div>
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" id="radio2" name="unit" value="cành" <?php if (isset($_POST['unit']) && $_POST['unit'] === 'cành') echo 'checked'; ?>>
+                                                    <label class="form-check-label" for="radio2">Cành</label>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
+                                    </form>
                                     <form action="" method="POST">
-                                        
-                                        <input type="hidden" name="unit" value="<?php echo $unit?>">
-                                        <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
 
+                                        <input type="hidden" name="unit" value="<?php echo $unit ?>">
+                                        <input type="hidden" name="product_id" value="<?php echo $fetch_products['id']; ?>">
+                                        <div class="row">
+                                            <p class="col col-md-2 col-sm-3">Kho:</p>
+                                            <p class="col col-md-2 col-sm-3"><span><?php echo $fetch_products['soluongkho']; ?></span></p>
+                                        </div>
+                                       
                                         <div class="row ">
                                             <span class="col-md-2 my-auto"> Số lượng: </span><input type="number" name="product_quantity" value="1" min="1" class="form-control col-md-1  text-center py-3 w-25" style="font-size: large;">
                                         </div>
