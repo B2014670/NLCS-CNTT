@@ -4,3 +4,4 @@ PHP-MySQL
 Javascript
 CSS
 Bootstrap
+datatables
